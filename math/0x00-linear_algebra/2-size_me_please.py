@@ -11,14 +11,14 @@ def matrix_shape(matrix):
     size = []
     try:
         size.append(len(matrix))
-    except TypeError:
+    except (TypeError, IndexError):
         return "Empty matrix"
     try:
         size.append(len(matrix[0]))
-    except TypeError:
+    except (TypeError, IndexError):
         return size
     try:
         size.append(len(matrix[0][0]))
         return size
-    except TypeError:
+    except (TypeError, IndexError):
         return size
