@@ -241,7 +241,7 @@ Example:
 
 ### Slice Like A Ninja
 
-File: 
+File: 100-slice_like_a_ninja.py
 
 Function that slices a matrix along a specific axes.
 
