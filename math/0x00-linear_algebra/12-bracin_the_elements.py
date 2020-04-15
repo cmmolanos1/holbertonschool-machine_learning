@@ -3,10 +3,13 @@
 
 
 def np_elementwise(mat1, mat2):
-    """
-    Performs aithmetic operations with matrices
-    :param mat1: (ndarray)
-    :param mat2: (ndarray)
-    :return: (ndarray)
+    """Performs arithmetic operation between arrays element-wise.
+
+    Args:
+        mat1 (numpy.ndarray): first matrix.
+        mat2 (numpy.ndarray): second matrix.
+
+    Returns:
+        numpy.ndarray: the four answer matrix for each operation.
     """
     return mat1 + mat2, mat1 - mat2, mat1 * mat2, mat1 / mat2

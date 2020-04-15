@@ -3,11 +3,14 @@
 
 
 def add_matrices2D(mat1, mat2):
-    """
-    Add two same size matrices
-    :param mat1: (list)
-    :param mat2: (list)
-    :return: result(list) if same size, otherwise None
+    """ Add 2D-matrix element-wise
+
+    Args:
+        mat1 (list): first NxM matrix
+        mat2 (list): second NxM matrix
+
+    Returns:
+        list: NxM matrix with the result
     """
     if len(mat1) != len(mat2):
         return None

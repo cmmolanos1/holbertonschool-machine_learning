@@ -3,11 +3,14 @@
 
 
 def cat_arrays(arr1, arr2):
-    """
-    Concats two arrays
-    :param arr1: (list)
-    :param arr2: (list)
-    :return: concat (list)
+    """Concatenates two arrays
+
+    Args:
+        arr1 (list): first array
+        arr2 (list): second array
+
+    Returns:
+        list: concatenated array
     """
     concat = arr1[:]
     concat.extend(arr2)

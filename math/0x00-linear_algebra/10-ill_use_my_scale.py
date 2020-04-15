@@ -3,9 +3,12 @@
 
 
 def np_shape(matrix):
-    """
-    Returns the shape of matrix
-    :param matrix: (ndarray)
-    :return: (tuple) the shape of matrix
+    """Returns the shape(dimension) of a matrix.
+
+    Args:
+        matrix (list): matrix to analise.
+
+    Returns:
+        tuple: the shape of the matrix.
     """
     return matrix.shape

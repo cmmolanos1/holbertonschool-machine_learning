@@ -3,10 +3,14 @@
 
 
 def matrix_transpose(matrix):
-    """
-    Switch rows by columns and vice versa
-    :param matrix(list):
-    :return: transposed(list)
+    """Switch rows by columns
+
+    Args:
+        matrix (list): given matrix
+
+    Returns:
+        list: transposed matrix
+
     """
     try:
         transposed = [[] for row in matrix[0]]

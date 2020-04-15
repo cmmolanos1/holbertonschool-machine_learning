@@ -4,10 +4,13 @@ import numpy as np
 
 
 def np_matmul(mat1, mat2):
-    """
-    Performs matrix multiplication
-    :param mat1: (ndarray)
-    :param mat2: (ndarray)
-    :return: (ndarray)
+    """Performs n-dimensional matrix multiplication.
+
+    Args:
+        mat1 (numpy.ndarray): first matrix.
+        mat2 (numpy.ndarray): second matrix.
+
+    Returns:
+        numpy.ndarray: the result matrix.
     """
     return np.matmul(mat1, mat2)

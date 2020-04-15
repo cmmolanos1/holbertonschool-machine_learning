@@ -3,14 +3,18 @@
 
 
 def cat_matrices2D(mat1, mat2, axis=0):
-    """
-    Concat 2 matrix
-    :param mat1: (list)
-    :param mat2: (list)
-    :param axis: (int) if 0 concatenates the rows, if 1 concatenates the cols
-    :return: concat(list)
+    """ Concatenates two matrices. Depends on the types axis.
+
+    Args:
+        mat1 (list): first NxM matrix.
+        mat2 (list): second NxM matrix.
+        axis (int): 0 concatenates rows, 1 concatenates cols. Default 0.
+
+    Returns:
+        list: concatenated matrix.
     """
     concat = [[n for n in row] for row in mat1]
+
     if axis == 0:
         if len(mat1[0]) != len(mat2[0]):
             return None

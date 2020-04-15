@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""n-dimensional Matrix addition,"""
+"""n-dimensional Matrix addition"""
 
 
 def shape_mat(mat):
-    """
-    Calculates the shape of a given matrix
-    :param mat: (list)
-    :return: (list) shape x,y,z..n
+    """Calculates the shape of a given matrix.
+
+    Args:
+        mat (list): matrix to know the shape.
+
+    Returns:
+        list: shape x,y,z...n.
     """
     if type(mat[0]) is not list:
         return [len(mat)]
@@ -24,11 +27,14 @@ def shape_mat(mat):
 #             return False
 
 
-def flat_matrixes(mat1):
-    """
-    Convert a matrix to 1-dim list
-    :param mat1: (list)
-    :return: (list) flattened matrix
+def flat_matrices(mat1):
+    """Convert a matrix to 1-dim list
+
+    Args:
+        mat1 (list): matrix to flat.
+
+    Returns:
+        list: flattened matrix.
     """
     if type(mat1[0]) is not list:
         return mat1
@@ -36,16 +42,22 @@ def flat_matrixes(mat1):
         flatted = []
         for element in mat1:
             flatted += element
-        return flat_matrixes(flatted)
+        return flat_matrices(flatted)
 
 
 def list_to_mat(l, shape):
-    """
-    Takes a list and depends on a given shape converts
-    it to a n-dim matrix
-    :param l: (list) the vector
-    :param shape: (list) shape of wanted matrix
-    :return: (list) matrix
+    """Takes a list and depends on a given shape converts
+    it to a n-dimensional matrix.
+
+    Args:
+        l (list): list to reshape.
+        shape (list): reversed and truncate shape of matrix
+
+    Example:
+        shape [2, 2, 3] -> shape to input [3, 2]
+
+    Returns:
+        list: reshaped matrix.
     """
     divided = [n for n in l]
     for size in shape:
@@ -54,11 +66,14 @@ def list_to_mat(l, shape):
 
 
 def add_matrices(mat1, mat2):
-    """
-    Add 2 matrices, no cares the dimension
-    :param mat1: (list)
-    :param mat2: (list)
-    :return: (list) the result matrix
+    """Add two n-dimensional matrices.
+
+    Args:
+        mat1 (list): first n-dimensional matrix.
+        mat2 (list): second n-dimensional matrix.
+
+    Returns:
+        list: the result matrix.
     """
     # Compares the shape
     if shape_mat(mat1) != shape_mat(mat2):
@@ -73,8 +88,8 @@ def add_matrices(mat1, mat2):
         shape = shape_mat(mat1)
 
         # Flat both matrices to add easier
-        m1_flat = flat_matrixes(mat1)
-        m2_flat = flat_matrixes(mat2)
+        m1_flat = flat_matrices(mat1)
+        m2_flat = flat_matrices(mat2)
         result_flat = [m1_flat[i] + m2_flat[i] for i in range(len(m1_flat))]
 
         # The flat vector to the wanted shape

@@ -4,9 +4,12 @@ import numpy
 
 
 def np_transpose(matrix):
-    """
-    Transpose the matrix, or change rows by cols
-    :param matrix: (ndarray)
-    :return: (ndarray)
+    """Switch rows by cols.
+
+    Args:
+        matrix (numpy.ndarray): matrix to transpose.
+
+    Returns:
+        numpy.ndarray: transposed matrix.
     """
     return numpy.transpose(matrix)

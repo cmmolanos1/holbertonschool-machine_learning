@@ -3,10 +3,13 @@
 
 
 def matrix_shape(matrix):
-    """
-    From a given matrix, returns its shape(size)
-    :param matrix: (list)
-    :return: size(list)
+    """From a given matrix, returns its shape(size)
+
+    Args:
+        matrix (list): matrix to know shape
+
+    Returns:
+        list: dimensions of matrix
     """
     size = []
     try:

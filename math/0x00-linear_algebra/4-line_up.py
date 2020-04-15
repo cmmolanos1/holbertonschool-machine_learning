@@ -3,11 +3,14 @@
 
 
 def add_arrays(arr1, arr2):
-    """
-    Add two arrays with the same size
-    :param arr1: list
-    :param arr2: list
-    :return: result(list)
+    """Adds two arrays element-wise
+
+    Args:
+        arr1 (list): first array
+        arr2 (list): second array
+
+    Returns:
+        list: n-size array with the result
     """
     if len(arr1) != len(arr2):
         return None

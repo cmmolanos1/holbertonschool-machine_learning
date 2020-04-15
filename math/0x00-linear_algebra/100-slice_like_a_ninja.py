@@ -5,12 +5,14 @@ import numpy as np
 
 
 def np_slice(matrix, axes={}):
-    """
-    Slices a ndarrat, depends on the axis, and the slice input
-    :param matrix: list
-    :param axes: dict the key is the axis to slice, and value the tuple
-    of the slice itself
-    :return: list the sliced matrix
+    """Slices a n-dimensional matrix, depends on the axis and the slice tuple typed.
+
+    Args:
+        matrix (numpy.ndarray): the matrix to slice.
+        axes (dict of int: tuple): Dict[axis] = (tuple to slice).
+
+    Returns:
+        numpy.ndarray: sliced matrix.
     """
     shape = np.shape(matrix)
 
