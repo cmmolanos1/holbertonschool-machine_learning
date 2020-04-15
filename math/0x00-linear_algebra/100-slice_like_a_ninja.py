@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """n-dimensional Matrix slicing"""
 
-import numpy as np
-
 
 def np_slice(matrix, axes={}):
     """Slices a n-dimensional matrix, depends on the axis and
@@ -15,7 +13,7 @@ def np_slice(matrix, axes={}):
     Returns:
         numpy.ndarray: sliced matrix.
     """
-    shape = np.shape(matrix)
+    shape = matrix.shape
 
     for axe, tupla in axes.items():
         slice_list = []
