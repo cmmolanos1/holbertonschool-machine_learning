@@ -5,7 +5,8 @@ import numpy as np
 
 
 def np_slice(matrix, axes={}):
-    """Slices a n-dimensional matrix, depends on the axis and the slice tuple typed.
+    """Slices a n-dimensional matrix, depends on the axis and
+    the slice tuple typed.
 
     Args:
         matrix (numpy.ndarray): the matrix to slice.
