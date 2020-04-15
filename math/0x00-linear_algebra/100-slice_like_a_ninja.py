@@ -13,16 +13,12 @@ def np_slice(matrix, axes={}):
     Returns:
         numpy.ndarray: sliced matrix.
     """
-    shape = matrix.shape
+    slice_list = []
 
-    for axe, tupla in axes.items():
-        slice_list = []
-
-        # Insert the slice in the given axis
-        for i in range(len(shape)):
-            if i == axe:
-                slice_list.append(slice(*tupla))
-            else:
-                slice_list.append(slice(None))
+    for axis in range(len(matrix.shape)):
+        if axis in axes.keys():
+            slice_list.append(slice(*axes[axis]))
+        else:
+            slice_list.append(slice(None))
 
     return matrix[tuple(slice_list)]
