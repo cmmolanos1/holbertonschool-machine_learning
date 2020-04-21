@@ -5,14 +5,14 @@
 def poly_derivative(poly):
     """Performs a derivative of a polynomial.
     Ej:
-    d(5 + 3x + x^3)/dx ----> 3 + 3x^2
+    d(5 + 3x + x³)/dx ----> 3 + 3x²
     [5, 3, 0, 1]       ----> [3, 0, 3]
 
     Args:
-        poly (list): the polinomial ordered by coefficients.
+        poly (list): the polynomial ordered by coefficients.
 
     Returns:
-        list: the derivated polynomial.
+        list: the derivative polynomial.
     """
     # Check if poly is a valid list.
     if poly == [] or type(poly) is not list:
