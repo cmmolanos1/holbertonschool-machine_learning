@@ -11,7 +11,7 @@ def summation_i_squared(n):
     Returns:
         int: summation from 1 to n
     """
-    if n < 1:
+    if n < 1 or type(n) is not int:
         return None
     elif n == 1:
         return 1
