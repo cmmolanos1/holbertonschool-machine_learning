@@ -16,7 +16,7 @@ def poly_integral(poly, C=0):
         list: polynomial integrated, included the constant C.
     """
     # Check if poly is a valid list.
-    if poly == [] or type(poly) is not list or type(c) is not int:
+    if poly == [] or type(poly) is not list or type(C) is not int:
         return None
     if poly == [0]:
         return [C]
@@ -24,10 +24,9 @@ def poly_integral(poly, C=0):
         if type(n) is not int and type(n) is not float:
             return None
 
-    coefficient = [1] + poly
-    integrals = [C] + [1 / (i + 1) for i in range(len(poly))]
+    integrals = [C] + [poly[i] / (i + 1) for i in range(len(poly))]
 
-    result = [coefficient[i] * integrals[i] for i in range(len(coefficient))]
-    result_int = [int(n) if n % 1 == 0 else n for n in result]
 
-    return result_int
+    result = [int(n) if n % 1 == 0 else n for n in integrals]
+
+    return result
