@@ -13,7 +13,5 @@ def summation_i_squared(n):
     """
     if n < 1 or type(n) is not int:
         return None
-    elif n == 1:
-        return 1
     else:
-        return n ** 2 + summation_i_squared(n - 1)
+        return sum([n ** 2 for n in range(1, n + 1)])
