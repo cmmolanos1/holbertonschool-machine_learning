@@ -26,7 +26,6 @@ def poly_integral(poly, C=0):
 
     integrals = [C] + [poly[i] / (i + 1) for i in range(len(poly))]
 
-
     result = [int(n) if n % 1 == 0 else n for n in integrals]
 
     return result
