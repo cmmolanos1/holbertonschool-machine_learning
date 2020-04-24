@@ -28,4 +28,9 @@ def poly_integral(poly, C=0):
     integrals = [C] + [1 / (i + 1) for i in range(len(poly))]
 
     result = [coefficient[i] * integrals[i] for i in range(len(coefficient))]
-    return [int(n) if n % 1 == 0 else n for n in result]
+    result_int = [int(n) if n % 1 == 0 else n for n in result]
+    i = len(result_int) - 1
+    while result_int[i] == 0:
+        result_int.pop(i)
+        i -= 1
+    return result_int
