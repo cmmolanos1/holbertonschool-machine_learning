@@ -18,6 +18,8 @@ def poly_integral(poly, C=0):
     # Check if poly is a valid list.
     if poly == [] or type(poly) is not list:
         return None
+    if poly == [0]:
+        return [C]
     for n in poly:
         if type(n) is not int and type(n) is not float:
             return None
