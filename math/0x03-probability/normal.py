@@ -20,11 +20,7 @@ class Normal():
         self.stddev = float(stddev)
 
         if data is None:
-            if self.stddev > 0:
-                self.data = [self.mean - self.stddev,
-                             self.mean,
-                             self.mean + self.stddev]
-            else:
+            if self.stddev < 0:
                 raise ValueError("stddev must be a positive value")
         else:
             if isinstance(data, list):
