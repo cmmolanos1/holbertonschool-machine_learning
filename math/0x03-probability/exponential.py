@@ -23,7 +23,7 @@ class Exponential():
             if isinstance(data, list):
                 if len(data) > 1:
                     self.data = data
-                    self.lambtha = 1 / (sum(self.data) / len(self.data))
+                    self.lambtha = float(1 / (sum(self.data) / len(self.data)))
                 else:
                     raise ValueError("data must contain multiple values")
             else:

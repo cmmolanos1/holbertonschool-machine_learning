@@ -23,7 +23,7 @@ class Poisson():
             if isinstance(data, list):
                 if len(data) > 1:
                     self.data = data
-                    self.lambtha = sum(self.data) / len(self.data)
+                    self.lambtha = float(sum(self.data) / len(self.data))
                 else:
                     raise ValueError("data must contain multiple values")
             else:
@@ -46,7 +46,7 @@ class Poisson():
             for i in range(1, x + 1):
                 x_fact = x_fact * i
 
-            f = e ** -self.lambtha * self.lambtha ** x / x_fact
+                f = e ** -self.lambtha * self.lambtha ** x / x_fact
             return f
 
     def cdf(self, k):
