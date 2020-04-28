@@ -17,18 +17,17 @@ class Exponential():
         """
         self.lambtha = float(lambtha)
         if data is None:
-            if lambtha > 0:
-                self.data = lambtha
-            else:
+            if lambtha < 0:
                 raise ValueError("lambtha must be a positive value")
         else:
-            if not isinstance(data, list):
-                raise TypeError("data must be a list")
-            elif len(data) < 2:
-                raise ValueError("data must contain multiple values")
+            if isinstance(data, list):
+                if len(data) > 1:
+                    self.data = data
+                    self.lambtha = 1 / (sum(self.data) / len(self.data))
+                else:
+                    raise ValueError("data must contain multiple values")
             else:
-                self.data = data
-                self.lambtha = 1 / (sum(self.data) / len(self.data))
+                raise TypeError("data must be a list")
 
     def pdf(self, k):
         """ Calculates the Probability Density Function of the distribution.
@@ -41,8 +40,7 @@ class Exponential():
             float: the value of the distribution function at point k.
         """
         x = k
-        if (isinstance(self.data, float) and x > 1) or \
-                (isinstance(self.data, list) and x > len(self.data)):
+        if x < 0:
             return 0
         else:
             f = self.lambtha * e ** (-self.lambtha * x)
@@ -59,8 +57,7 @@ class Exponential():
             float: the integral of the function from 0 to k.
         """
         x = k
-        if (isinstance(self.data, float) and x > 1) or \
-                (isinstance(self.data, list) and x > len(self.data)):
+        if x < 0:
             return 0
         cdf_exp = -e ** (-self.lambtha * x) + 1
         return cdf_exp
