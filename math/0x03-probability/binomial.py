@@ -41,7 +41,7 @@ class Binomial():
         if data is None:
             if self.n < 1:
                 raise ValueError("n must be a positive value")
-            elif self.p < 0 or self.p > 1:
+            elif self.p <= 0 or self.p >= 1:
                 raise ValueError("p must be greater than 0 and less than 1")
 
         else:
