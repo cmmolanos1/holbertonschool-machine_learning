@@ -7,7 +7,7 @@ pi = 3.1415926536
 
 def factorial(n):
     """Calculates factorial of integer
-
+/9
     Args:
         n (int): number
 
@@ -35,11 +35,11 @@ class Binomial():
             n (int): Bernoulli number.
             p (float): success probability.
         """
-        self.n = float(n)
+        self.n = int(n)
         self.p = float(p)
 
         if data is None:
-            if self.n < 0:
+            if self.n < 1:
                 raise ValueError("n must be a positive value")
             elif self.p < 0 or self.p > 1:
                 raise ValueError("p must be greater than 0 and less than 1")
@@ -49,13 +49,11 @@ class Binomial():
                 if len(data) > 1:
                     self.data = data
                     mean = sum(self.data) / len(self.data)
-                    variance = sum([(num - mean) ** 2 for num in self.data])\
-                        / len(self.data)
+                    variance = (sum([(num - mean) ** 2 for num in self.data]) /
+                                len(self.data))
                     p = 1 - variance / mean
-                    n = round(mean / p)
-                    p = mean / n
-                    self.n = int(n)
-                    self.p = p
+                    self.n = int(round(mean / p))
+                    self.p = mean / self.n
                 else:
                     raise ValueError("data must contain multiple values")
 
