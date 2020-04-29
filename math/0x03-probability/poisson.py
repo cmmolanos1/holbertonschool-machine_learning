@@ -46,7 +46,7 @@ class Poisson():
             for i in range(1, x + 1):
                 x_fact = x_fact * i
 
-                f = e ** -self.lambtha * self.lambtha ** x / x_fact
+            f = e ** -self.lambtha * self.lambtha ** x / x_fact
             return f
 
     def cdf(self, k):
