@@ -47,6 +47,14 @@ class Normal():
         return (x - self.mean) / self.stddev
 
     def x_value(self, z):
+        """Calculates x from z
+
+        Args:
+            z (float): z-score
+
+        Returns:
+            float: x-score
+        """
         return z * self.stddev + self.mean
 
     def pdf(self, x):
