@@ -4,3 +4,5 @@
 /math/0x02-calculus/10-main.py
 /math/0x02-calculus/17-main.py
 /math/0x03-probability/*-main.py
+/supervised_learning/data/
+/supervised_learning/0x00-binary_classification/*-main.py
