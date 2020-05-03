@@ -94,15 +94,13 @@ class NeuralNetwork():
          Returns:
              ndarray: vector with activation results using sigmoid
                       (1, number X)"""
-        z_1 = np.matmul(self.__W1, X) + self.__b1
-        sigmoid_1 = 1 / (1 + np.exp(-z_1))
-        self.__A1 = sigmoid_1
+        z1 = np.matmul(self.__W1, X) + self.__b1
+        sigmoid1 = 1 / (1 + np.exp(-z1))
+        self.__A1 = sigmoid1
 
-        z_2 = np.matmul(self.__W2, self.__A1) + self.__b2
-        sigmoid_2 = 1 / (1 + np.exp(-z_2))
-        self.__A2 = sigmoid_2
-
-        return self.__A1, self.__A2
+        z2 = np.matmul(self.__W2, self.__A1) + self.__b2
+        sigmoid2 = 1 / (1 + np.exp(-z2))
+        self.__A2 = sigmoid2
 
     def cost(self, Y, A):
         """Calculates the function cost of the neuron.
@@ -162,3 +160,34 @@ class NeuralNetwork():
         self.__b2 -= alpha * db2
         self.__W1 -= alpha * dW1
         self.__b1 -= alpha * db1
+
+    def train(self, X, Y, iterations=5000, alpha=0.05):
+        """Trains the neural network, performing gradient_descent iterations
+        times.
+
+        Args:
+            X (ndarray): input data shape(nx, m).
+            Y (ndarray): the actual or correct values for the input data.
+            iterations (int): number of times the function will train the
+                               neuron.
+             alpha (float): learning rate.
+
+        Returns:
+            ndarray: activated output of network at the end of training,
+                     where if A[i] >= 0.5 the output is 1, otherwise 0.
+            float: the neuron's cost at the end of training.
+        """
+        if type(iterations) is not int:
+            raise TypeError("iterations must be an integer")
+        if iterations <= 0:
+            raise ValueError("iterations must be a positive integer")
+        if type(alpha) is not float:
+            raise TypeError("alpha must be a float")
+        if alpha <= 0:
+            raise ValueError("alpha must be positive")
+
+        for _ in range(iterations):
+            self.forward_prop(X)
+            self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+
+        return self.evaluate(X, Y)
