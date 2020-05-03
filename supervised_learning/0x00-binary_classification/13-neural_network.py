@@ -151,6 +151,9 @@ class NeuralNetwork():
         dW2 = np.dot(dz2, A1.T) / m
         db2 = dz2.sum(axis=1, keepdims=True) / m
 
+        # g' = d(1/(1+e^-z))/dz = e^-z / (1 + e^-z)²
+        #    = 1((1+e^-z) * (1 - 1/(1+e^-z))
+        #    = A * (1 - A)
         dz1 = np.dot(self.__W2.T, dz2) * (A1 * (1 - A1))
         dW1 = np.dot(dz1, X.T)
         db1 = dz1.sum(axis=1, keepdims=True) / m
