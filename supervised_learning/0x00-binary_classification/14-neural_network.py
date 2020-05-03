@@ -170,7 +170,7 @@ class NeuralNetwork():
             Y (ndarray): the actual or correct values for the input data.
             iterations (int): number of times the function will train the
                                neuron.
-             alpha (float): learning rate.
+            alpha (float): learning rate.
 
         Returns:
             ndarray: activated output of network at the end of training,
