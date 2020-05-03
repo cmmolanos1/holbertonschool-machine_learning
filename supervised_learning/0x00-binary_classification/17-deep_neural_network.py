@@ -22,14 +22,14 @@ class DeepNeuralNetwork():
         arr_layers = np.array(layers)
         len_pos = arr_layers[arr_layers >= 1].shape[0]
         if len_pos != len(layers) or \
-                isinstance(arr_layers[0], np.integer) is False:
+           isinstance(arr_layers[0], np.integer) is False:
             raise TypeError("layers must be a list of positive integers")
 
-        self.L = len(layers)
-        self.cache = {}
-        self.weights = {}
+        self.__L = len(layers)
+        self.__cache = {}
+        self.__weights = {}
 
-        for la in range(self.L):
+        for la in range(self.__L):
             # Layer 0 = X, Layers = [L1_size, L2_size, ..., Ln_size]
             key_w = "W{}".format(la + 1)
             key_b = "b{}".format(la + 1)
@@ -37,11 +37,38 @@ class DeepNeuralNetwork():
             if la == 0:
                 # Layer 0 = X, Size Layer 0 = nx
                 weight = np.random.randn(layers[la], nx) * np.sqrt(2 / nx)
-                self.weights[key_w] = weight
+                self.__weights[key_w] = weight
             else:
                 weight = np.random.randn(layers[la], layers[la - 1]) * \
                          np.sqrt(2 / layers[la - 1])
-                self.weights[key_w] = weight
+                self.__weights[key_w] = weight
 
             biases = np.zeros((layers[la], 1))
-            self.weights[key_b] = biases
+            self.__weights[key_b] = biases
+
+    @property
+    def L(self):
+        """ A attribute getter.
+
+        Returns:
+            int: Private A.
+        """
+        return self.__L
+
+    @property
+    def cache(self):
+        """ cache attribute getter.
+
+        Returns:
+            int: Private A.
+        """
+        return self.__cache
+
+    @property
+    def weights(self):
+        """ A attribute getter.
+
+        Returns:
+            int: Private A.
+        """
+        return self.__weights
