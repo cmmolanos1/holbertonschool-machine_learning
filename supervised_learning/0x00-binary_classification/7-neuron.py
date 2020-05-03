@@ -123,7 +123,8 @@ class Neuron():
         self.__W -= alpha * dW
         self.__b -= alpha * db
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True,
+              graph=True, step=100):
         """Trains the neuron, performing gradient_descent iterations times.
 
         Args:
@@ -133,7 +134,7 @@ class Neuron():
                               neuron.
             alpha (float): learning rate.
             verbose (bool): If true, prints the cost after step iterations.
-            graph (bool):
+            graph (bool): If true, prints the plot iterations vs cost.
             step (int): number of iteration to print message and graph.
 
         Returns:
