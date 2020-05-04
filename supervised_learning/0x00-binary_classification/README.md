@@ -2,9 +2,9 @@
 
 The goal of this project is to perform image classification, where the algoritm has to choose if the pic corresponds to number 1 or number 0.
 
-**PICTURE 1**
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/classification.png)
 
-I is needed to learn the next topics for having solid foundations:
+I needed to learn the next topics for having solid foundations:
 
 * Models.
 * Supervised Learning.
@@ -41,7 +41,10 @@ To achieve the classification were coded three ways to perform it:
 
 A neuron is an object that takes one or several inputs and produces one singular output.
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronDiagram.png)
+
 The inputs are:
+
  * X: input data.
  * W: Weight. It weighs the value of X.
  * b: bias. −threshold. The value to reach "success".
@@ -50,10 +53,13 @@ The inputs are:
  
  ![\sigma (z) = \frac{1}{1 + e^{-z}}](https://render.githubusercontent.com/render/math?math=%5Csigma%20(z)%20%3D%20%5Cfrac%7B1%7D%7B1%20%2B%20e%5E%7B-z%7D%7D)
  
+ ![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/sigmoid.png)
+ 
  The output is named Activation(A).
  
  Also, Neuron can be represented as a Graph.
  
+ ![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronGrapg.png)
  
  Neuron was coded as an object, with attributes:
  
@@ -61,7 +67,7 @@ The inputs are:
  
  * `def forward_prop(self, X):`
  
- Calculates the output Activation. As you can see in Graph:
+ Calculates the output Activation. As you can see in the graph:
  
  ![A= \sigma (z) = \frac{1}{1 + e^{-z}}](https://render.githubusercontent.com/render/math?math=A%3D%20%5Csigma%20(z)%20%3D%20%5Cfrac%7B1%7D%7B1%20%2B%20e%5E%7B-z%7D%7D)
  
@@ -99,6 +105,8 @@ user@ubuntu-xenial:0x00-binary_classification$
  * `def cost(self, Y, A):`
  
  Calculates the Neuron performance, is better if cost is closer to zero.
+ 
+ ![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronGraphLoss.png)
  
  Where L(A, Y) is Logistic Loss Function and is equal to `-(YlogA + (1-Y)log(1-A)`
  
@@ -176,6 +184,8 @@ And alpha is the learning step, or how much the iteration can decent the functio
 We want to minimize the cost, so we need to minimize the Loss Function which depends on A and Y, but A depends on X, W, and b. We cannot modify X so we need to modify W and b to get a smaller Loss.
 
 Backtracking is a good technique to find dW and db, we can measure how much change the Loss function going back and calculating the variation of each node in the graph thanks to Chain Rule.
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronGraphGrad.png)
 
 ![dA = \frac{\partial L(A, Y)}{\partial A}\rightarrow \frac{d(-(YlogA + (1-Y)log(1-A)))}{dA}\rightarrow \frac{a-y}{a(1-a))}](https://render.githubusercontent.com/render/math?math=dA%20%3D%20%5Cfrac%7B%5Cpartial%20L(A%2C%20Y)%7D%7B%5Cpartial%20A%7D%5Crightarrow%20%5Cfrac%7Bd(-(YlogA%20%2B%20(1-Y)log(1-A)))%7D%7BdA%7D%5Crightarrow%20%5Cfrac%7Ba-y%7D%7Ba(1-a))%7D)
 
@@ -274,7 +284,8 @@ Cost after 3000 iterations: 0.013386353289868338
 ```
 
 ##### Output
-Picture
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronCost3000.png)
 
 ```
 Train cost: 0.013386353289868338
@@ -282,7 +293,8 @@ Train accuracy: 99.66837741808132%
 Dev cost: 0.010803484515167197
 Dev accuracy: 99.81087470449172%
 ```
-picture.
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/classification.png)
 
 ## Two-Layers Neural Network
 
@@ -296,7 +308,11 @@ In this Neural Network X layers is names Layer 0 with A0 as output.
 
 The intermediate layers are named Hidden Layers, and the last layer is named Output Layer. Due to we are performing a Binary Classification we can use one neuron in this layer.
 
-Graph oh this layer: 
+#[](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NNDiagram.png)
+
+Graph of this layer: 
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NNGraph.png)
 
 The Neural Network was coded as an object, with same attributes than Neuron. The class is defines by imput the number of nodes/neuron in the hidden layer. We can check the performance improvement in examples:
 
@@ -387,6 +403,8 @@ user@ubuntu-xenial:0x00-binary_classification$
 
 #### Gradient Descent
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NNGraphGrad.png)
+
 ```
 user@ubuntu-xenial:0x00-binary_classification$ cat 13-main.py
 #!/usr/bin/env python3
@@ -469,6 +487,8 @@ Cost after 5000 iterations: 0.024369225667283875
 
 ##### Output
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/trainingNN5000.png)
+
 ```
 Train cost: 0.024369225667283875
 Train accuracy: 99.3999210422424%
@@ -476,12 +496,15 @@ Dev cost: 0.020330639788072768
 Dev accuracy: 99.57446808510639%
 ```
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/classification.png)
+
 ## Two-Layers Neural Network
 
 * File: `23-deep_neural_network.py`
 
 The last coded Neural Network was the Deep Neural Network, is Network with more of 2 layers. The representation and notation is:
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/DNNDiagram.png)
 
 The object is defined by a variable `layers`, it is a list that have the size of each layer.We can check the performance by using the same attributes.
 
@@ -636,9 +659,13 @@ Cost after 5000 iterations: 0.011671820326008168
 
 ##### Output
 
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/trainingDNN5000.png)
+
 ```
 Train cost: 0.011671820326008168
 Train accuracy: 99.88945913936044%
 Dev cost: 0.00924955213227925
 Dev accuracy: 99.95271867612293%
 ```
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/classification.png)
