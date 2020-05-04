@@ -187,7 +187,7 @@ Backtracking is a good technique to find dW and db, we can measure how much chan
 
 ![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NeuronGraphGrad.png)
 
-![dA = \frac{\partial L(A, Y)}{\partial A}\rightarrow \frac{d(-(YlogA + (1-Y)log(1-A)))}{dA}\rightarrow \frac{a-y}{a(1-a))}](https://render.githubusercontent.com/render/math?math=dA%20%3D%20%5Cfrac%7B%5Cpartial%20L(A%2C%20Y)%7D%7B%5Cpartial%20A%7D%5Crightarrow%20%5Cfrac%7Bd(-(YlogA%20%2B%20(1-Y)log(1-A)))%7D%7BdA%7D%5Crightarrow%20%5Cfrac%7Ba-y%7D%7Ba(1-a))%7D)
+![dA = \frac{\partial L(A, Y)}{\partial A}\rightarrow \frac{d(-(YlogA + (1-Y)log(1-A)))}{dA}\rightarrow \frac{a-y}{a(1-a)}](https://render.githubusercontent.com/render/math?math=dA%20%3D%20%5Cfrac%7B%5Cpartial%20L(A%2C%20Y)%7D%7B%5Cpartial%20A%7D%5Crightarrow%20%5Cfrac%7Bd(-(YlogA%20%2B%20(1-Y)log(1-A)))%7D%7BdA%7D%5Crightarrow%20%5Cfrac%7Ba-y%7D%7Ba(1-a)%7D)
 
 ![dz = \frac{\partial L(A, Y)}{\partial z}\rightarrow \frac{dL(A, Y)}{dA} \frac{dA}{dz}\rightarrow dA \frac{d}{dz}(\frac {1}{1+e^{-z}})\rightarrow dA \frac {e^{-z}}{(1+e^{-z})^{2}}\rightarrow dA(\frac {1}{1+e^{-z}})(1-\frac {1}{1+e^{-z}})\rightarrow \frac{A-Y}{A(1-A)}A(1-A)\rightarrow A-Y](https://render.githubusercontent.com/render/math?math=dz%20%3D%20%5Cfrac%7B%5Cpartial%20L(A%2C%20Y)%7D%7B%5Cpartial%20z%7D%5Crightarrow%20%5Cfrac%7BdL(A%2C%20Y)%7D%7BdA%7D%20%5Cfrac%7BdA%7D%7Bdz%7D%5Crightarrow%20dA%20%5Cfrac%7Bd%7D%7Bdz%7D(%5Cfrac%20%7B1%7D%7B1%2Be%5E%7B-z%7D%7D)%5Crightarrow%20dA%20%5Cfrac%20%7Be%5E%7B-z%7D%7D%7B(1%2Be%5E%7B-z%7D)%5E%7B2%7D%7D%5Crightarrow%20dA(%5Cfrac%20%7B1%7D%7B1%2Be%5E%7B-z%7D%7D)(1-%5Cfrac%20%7B1%7D%7B1%2Be%5E%7B-z%7D%7D)%5Crightarrow%20%5Cfrac%7BA-Y%7D%7BA(1-A)%7DA(1-A)%5Crightarrow%20A-Y)
 
@@ -308,7 +308,7 @@ In this Neural Network X layers is names Layer 0 with A0 as output.
 
 The intermediate layers are named Hidden Layers, and the last layer is named Output Layer. Due to we are performing a Binary Classification we can use one neuron in this layer.
 
-#[](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NNDiagram.png)
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/NNDiagram.png)
 
 Graph of this layer: 
 
