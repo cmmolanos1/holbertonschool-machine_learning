@@ -498,7 +498,7 @@ Dev accuracy: 99.57446808510639%
 
 ![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/supervised_learning/0x00-binary_classification/pics/classification.png)
 
-## Two-Layers Neural Network
+## Deep Neural Network
 
 * File: `23-deep_neural_network.py`
 
