@@ -133,7 +133,13 @@ class DeepNeuralNetwork():
         return A, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
+        """Calculates one pass of gradient descent on the network.
 
+        Args:
+            Y (ndarray): the actual or correct values for the input data.
+            cache (dict): contents all activation units for each layer.
+            alpha (float): learning rate.
+        """
         m = Y.shape[1]
         dz = {}
         dW = {}
