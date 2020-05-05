@@ -43,5 +43,5 @@ class DeepNeuralNetwork():
                          np.sqrt(2 / layers[la - 1])
                 self.weights[key_w] = weight
 
-            biases = np.zeros((layers[la], 1))
+            biases = np.zeros(layers[la]).reshape(layers[la], 1)
             self.weights[key_b] = biases
