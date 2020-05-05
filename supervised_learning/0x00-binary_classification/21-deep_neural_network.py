@@ -21,7 +21,7 @@ class DeepNeuralNetwork():
             raise TypeError("layers must be a list of positive integers")
         arr_layers = np.array(layers)
         len_pos = arr_layers[arr_layers >= 1].shape[0]
-        if len_pos != len(layers) or \
+        if len(layers) == 0 or len_pos != len(layers) or \
                 isinstance(arr_layers[0], np.integer) is False:
             raise TypeError("layers must be a list of positive integers")
 
