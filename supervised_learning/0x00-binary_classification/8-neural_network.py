@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-""" Class NeuralNetwork """
+"""First Neural Network"""
 import numpy as np
 
 
-class NeuralNetwork:
-    """ class NeuralNetwork """
+class NeuralNetwork():
+    """Defines a neural network performing binary classification"""
 
     def __init__(self, nx, nodes):
-        """ init for NeuralNetwork """
+        """ Class constructor.
+
+        Args:
+            nx (int): number of input features.
+            nodes (int): number of nodes found in the hidden layer.
+        """
         if type(nx) != int:
             raise TypeError('nx must be an integer')
         if nx < 1:
