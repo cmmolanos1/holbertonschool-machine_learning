@@ -22,11 +22,11 @@ class NeuralNetwork():
         if nodes < 1:
             raise TypeError("nodes must be a positive integer")
 
-        # Hidden layer.
-        self.W1 = np.random.randn(nodes, nx)
-        self.b1 = np.zeros((nodes, 1))
+        self.nx = nx
+        self.nodes = nodes
+        self.W1 = np.random.randn(nx, nodes).reshape(nodes, nx)
+        self.b1 = np.zeros(nodes).reshape(nodes, 1)
         self.A1 = 0
-        # Output neuron.
-        self.W2 = np.random.randn(1, nodes)
+        self.W2 = np.random.randn(nodes).reshape(1, nodes)
         self.b2 = 0
         self.A2 = 0
