@@ -97,10 +97,18 @@ class DeepNeuralNetwork():
             A = self.__cache[key_A]
             b = self.__weights[key_b]
             z = np.matmul(W, A) + b
-            sigmoid = 1 / (1 + np.exp(-z))
-            self.__cache[key_newA] = sigmoid
 
-        return sigmoid, self.__cache
+            if la < self.__L - 1:
+                # Sigmoid
+                activation = 1 / (1 + np.exp(-z))
+            else:
+                # Softmax
+                t = np.exp(z)
+                activation = t / np.sum(t, axis=0, keepdims=True)
+
+            self.__cache[key_newA] = activation
+
+        return activation, self.__cache
 
     def cost(self, Y, A):
         """Calculates the function cost of the neuron.
@@ -114,7 +122,7 @@ class DeepNeuralNetwork():
             float: calculated cost, better if cost -> 0 .
         """
         constant = -1 / A.shape[1]
-        summation = Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
+        summation = Y * np.log(A)
         return constant * summation.sum()
 
     def evaluate(self, X, Y):
@@ -131,8 +139,8 @@ class DeepNeuralNetwork():
         """
         A, _ = self.forward_prop(X)
         cost = self.cost(Y, A)
-        A = np.where(A >= 0.5, 1, 0)
-        return A, cost
+        A = np.where(A == np.amax(A, axis=0), 1, 0)
+        return (A, cost)
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """Calculates one pass of gradient descent on the network.
