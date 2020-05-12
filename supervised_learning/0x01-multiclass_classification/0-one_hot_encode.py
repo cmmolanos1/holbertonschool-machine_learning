@@ -13,15 +13,13 @@ def one_hot_encode(Y, classes):
     Returns:
         numpy.ndarray: one hot matrix.
     """
-    if Y[Y < 0]:
-        return None
-    if Y[Y >= classes]:
+    if not isinstance(Y, np.ndarray):
         return None
     if len(Y) == 0:
         return None
-    if not isinstance(Y[0], np.integer):
+    if type(classes) is not int:
         return None
-    if not isinstance(Y, np.ndarray):
+    if classes <= np.amax(Y):
         return None
 
     one_hot = np.zeros((classes, len(Y)))
