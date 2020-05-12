@@ -14,9 +14,9 @@ def one_hot_encode(Y, classes):
         numpy.ndarray: one hot matrix.
     """
     if Y[Y < 0] or Y[Y >= classes]:
-        return 0
+        return None
     if isinstance(Y[0], np.integer) is False:
-        return 0
+        return None
 
     one_hot = np.zeros((classes, len(Y)))
     one_hot[Y, np.arange(len(Y))] = 1
