@@ -14,8 +14,6 @@ def one_hot_decode(one_hot):
     """
     if not isinstance(one_hot, np.ndarray):
         return None
-    if not isinstance(one_hot[0], np.integer):
-        return None
     if not np.all((one_hot == 0) | (one_hot == 1)):
         return None
     if len(one_hot.shape) != 2:
