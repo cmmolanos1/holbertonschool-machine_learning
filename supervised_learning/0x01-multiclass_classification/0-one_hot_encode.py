@@ -17,6 +17,8 @@ def one_hot_encode(Y, classes):
         return None
     if isinstance(Y[0], np.integer) is False:
         return None
+    if isinstance(Y, np.ndarray) is False:
+        return None
 
     one_hot = np.zeros((classes, len(Y)))
     one_hot[Y, np.arange(len(Y))] = 1
