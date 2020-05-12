@@ -13,7 +13,9 @@ def one_hot_encode(Y, classes):
     Returns:
         numpy.ndarray: one hot matrix.
     """
-    if Y[Y < 0] or Y[Y >= classes]:
+    if Y[Y < 0]:
+        return None
+    if Y[Y >= classes]:
         return None
     if len(Y) == 0:
         return None
