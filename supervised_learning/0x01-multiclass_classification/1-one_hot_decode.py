@@ -18,5 +18,7 @@ def one_hot_decode(one_hot):
         return None
     if not np.all((one_hot == 0) | (one_hot == 1)):
         return None
+    if len(one_hot.shape) != 2:
+        return None
 
     return np.argmax(one_hot, axis=0)
