@@ -8,3 +8,4 @@
 /supervised_learning/0x00-binary_classification/*-main.py
 /supervised_learning/0x01-multiclass_classification/*-main.py
 /supervised_learning/0x01-multiclass_classification/2-output.pkl
+/supervised_learning/0x02-tensorflow/*-main.py
