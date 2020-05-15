@@ -33,10 +33,20 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
     ny = Y_train.shape[1]
 
     x, y = create_placeholders(nx, ny)
+    tf.add_to_collection('x', x)
+    tf.add_to_collection('y', y)
+
     y_pred = forward_prop(x, layer_sizes, activations)
+    tf.add_to_collection('y_pred', y_pred)
+
     accuracy = calculate_accuracy(y, y_pred)
-    cost = calculate_loss(y, y_pred)
-    optimizer = create_train_op(cost, alpha)
+    tf.add_to_collection('accuracy', accuracy)
+
+    loss = calculate_loss(y, y_pred)
+    tf.add_to_collection('loss', loss)
+
+    optimizer = create_train_op(loss, alpha)
+    tf.add_to_collection('optimizer', optimizer)
 
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
@@ -45,12 +55,12 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes, activations,
         sess.run(init)
         for i in range(iterations + 1):
 
-            cost_t, accuracy_t = sess.run([cost, accuracy],
+            cost_t, accuracy_t = sess.run([loss, accuracy],
                                           feed_dict={x: X_train, y: Y_train})
-            cost_v, accuracy_v = sess.run([cost, accuracy],
+            cost_v, accuracy_v = sess.run([loss, accuracy],
                                           feed_dict={x: X_valid, y: Y_valid})
 
-            if i % 100 == 0:
+            if i % 100 == 0 or i == iterations:
                 print("After {} iterations:".format(i))
                 print("\tTraining Cost: {}".format(cost_t))
                 print("\tTraining Accuracy: {}".format(accuracy_t))
