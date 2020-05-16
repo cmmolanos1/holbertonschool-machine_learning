@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Loss"""
+"""
+Loss
+"""
 
 import tensorflow as tf
 
 
 def calculate_loss(y, y_pred):
-    """Calculates the softmax cross-entropy loss of a prediction.
+    """Calculates the cross-entropy loss of a prediction.
 
     Args:
         y (tensor): placeholder for the labels of the input data.
