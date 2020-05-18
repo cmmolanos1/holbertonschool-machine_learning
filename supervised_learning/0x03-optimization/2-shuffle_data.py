@@ -14,7 +14,7 @@ def shuffle_data(X, Y):
         Y (np.ndarray): (m, nx) matrix to shuffle.
 
     Returns:
-        np.ndarray: shiffled version of X and Y.
+        np.ndarray: shuffled version of X and Y.
 
     """
     m = X.shape[0]
