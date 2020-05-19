@@ -35,4 +35,6 @@ def create_batch_norm_layer(prev, n, activation):
     Z_tilde = tf.nn.batch_normalization(Z, mean, var, beta, gamma, epsilon)
 
     # A = g(Z_tilde)
+    if activation is None:
+        return Z_tilde
     return activation(Z_tilde)
