@@ -22,7 +22,7 @@ def create_batch_norm_layer(prev, n, activation):
     """
     # X, W, b ---> Z
     init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
-    hidden = tf.keras.layers.Dense(units=n, kernel_initializer=init)
+    hidden = tf.layers.Dense(units=n, kernel_initializer=init)
     Z = hidden(prev)
 
     # Z, Gamma, Beta ---> Z_tilde
