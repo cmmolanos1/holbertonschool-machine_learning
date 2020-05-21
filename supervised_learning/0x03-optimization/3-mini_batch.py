@@ -29,8 +29,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Returns:
         str: the path where the model was saved.
     """
-    m = X_train.shape[0]
-
     with tf.Session() as sess:
         saver = tf.train.import_meta_graph("{}.meta".format(load_path))
         saver.restore(sess, load_path)
@@ -40,6 +38,14 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         accuracy = tf.get_collection("accuracy")[0]
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
+
+        m = X_train.shape[0]
+        if m % batch_size == 0:
+            complete = 1
+            num_batches = int(m / batch_size)
+        else:
+            complete = 0
+            num_batches = int(m / batch_size) + 1
 
         for i in range(epochs + 1):
             # Print the train previous values
@@ -56,13 +62,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             if i < epochs:
                 X_shu, Y_shu = shuffle_data(X_train, Y_train)
 
-                if m % batch_size == 0:
-                    complete = 1
-                    num_batches = int(m / batch_size)
-                else:
-                    complete = 0
-                    num_batches = int(m / batch_size) + 1
-
                 for k in range(num_batches):
                     if complete == 0 and k == num_batches - 1:
                         start = k * batch_size
@@ -75,12 +74,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         Y_minibatch = Y_shu[start:end]
 
                     feed_mb = {x: X_minibatch, y: Y_minibatch}
-
                     sess.run(train_op, feed_mb)
-                    mb_c, mb_a = sess.run([loss, accuracy],
-                                          feed_mb)
 
                     if (k + 1) % 100 == 0 and k != 0:
+                        mb_c, mb_a = sess.run([loss, accuracy], feed_mb)
                         print("\tStep {}:".format(k + 1))
                         print("\t\tCost: {}".format(mb_c))
                         print("\t\tAccuracy: {}".format(mb_a))
