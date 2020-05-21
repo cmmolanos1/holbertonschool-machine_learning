@@ -3,11 +3,97 @@
 Batch normalization
 """
 
+import numpy as np
 import tensorflow as tf
 
-shuffle_data = __import__('2-shuffle_data').shuffle_data
-create_batch_norm_layer = __import__('14-batch_norm').create_batch_norm_layer
-AdamOpt = __import__('10-Adam').create_Adam_op
+
+def shuffle_data(X, Y):
+    """Shuffles the data points in two matrices the same way.
+
+    Args:
+        X (np.ndarray): (m, nx) matrix to shuffle.
+        Y (np.ndarray): (m, nx) matrix to shuffle.
+
+    Returns:
+        np.ndarray: shuffled version of X and Y.
+
+    """
+    m = X.shape[0]
+    permutation = list(np.random.permutation(m))
+    shuffled_X = X[permutation, :]
+    shuffled_Y = Y[permutation, :]
+
+    return shuffled_X, shuffled_Y
+
+
+def create_batch_norm_layer(prev, n, activation):
+    """Creates a batch normalization layer for a neural network.
+
+    Args:
+        prev (tensor): the activated output of the previous layer.
+        n (int): number of nodes in the layer to be created.
+        activation (tensor): activation function that should be used on the
+                             output of the layer
+
+    Returns:
+         tensor of the activated output for the layer.
+
+    """
+    # X, W, b ---> Z
+    init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
+    hidden = tf.layers.Dense(units=n, kernel_initializer=init)
+    Z = hidden(prev)
+
+    # Z, Gamma, Beta ---> Z_tilde
+    epsilon = 1e-8
+    beta = tf.Variable(tf.constant(0.0, shape=[n]), name='beta',
+                       trainable=True)
+    gamma = tf.Variable(tf.constant(1.0, shape=[n]), name='gamma',
+                        trainable=True)
+    mean, var = tf.nn.moments(Z, axes=[0])
+    Z_tilde = tf.nn.batch_normalization(Z, mean, var, beta, gamma, epsilon)
+
+    # A = g(Z_tilde)
+    if activation is None:
+        return Z_tilde
+    return activation(Z_tilde)
+
+
+def learning_rate_decay(alpha, decay_rate, global_step, decay_step):
+    """Updates the learning rate using inverse time decay in numpy.
+
+    Args:
+        alpha (float): the original learning rate.
+        decay_rate (float): the weight used to determine the rate at which
+                            alpha will decay
+        global_step (int): the number of passes of gradient descent that have
+                           elapsed.
+        decay_step (int): the number of passes of gradient descent that should
+                          occur before alpha is decayed further.
+
+    Returns:
+        tensor: the learning rate decay operation
+    """
+    return tf.train.inverse_time_decay(alpha, global_step,
+                                       decay_step, decay_rate,
+                                       staircase=True)
+
+
+def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
+    """Updates a variable in place using the Adam optimization algorithm.
+
+    Args:
+        loss (float):  loss of the network.
+        alpha (float): learning rate.
+        beta1 (float): weight used for the first moment.
+        beta2 (float): weight used for the second moment.
+        epsilon (float): small number to avoid division by zero.
+
+    Returns:
+        tensor: the Adam optimization operation
+    """
+    optimizer = tf.train.AdamOptimizer(alpha, beta1, beta2, epsilon)
+    return optimizer.minimize(loss)
 
 
 def forward_prop(x, layer_sizes=[], activations=[]):
@@ -146,14 +232,21 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     tf.add_to_collection('loss', loss)
 
     global_step = tf.Variable(0, trainable=False)
-    alpha_d = tf.train.inverse_time_decay(alpha, global_step, 1, decay_rate,
-                                          staircase=True)
+    alpha_d = learning_rate_decay(alpha, decay_rate, global_step, 1)
 
-    train_op = AdamOpt(loss, alpha_d, beta1, beta2, epsilon)
+    train_op = create_Adam_op(loss, alpha_d, beta1, beta2, epsilon)
     tf.add_to_collection('train_op', train_op)
 
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
+
+    m = X_train.shape[0]
+    if m % batch_size == 0:
+        complete = 1
+        num_batches = int(m / batch_size)
+    else:
+        complete = 0
+        num_batches = int(m / batch_size) + 1
 
     with tf.Session() as sess:
         sess.run(init)
@@ -170,20 +263,28 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
             print("\tValidation Accuracy: {}".format(valid_accuracy))
 
             if i < epochs:
-                minibatches = random_mini_batches(X_train, Y_train, batch_size)
+                X_shu, Y_shu = shuffle_data(X_train, Y_train)
 
-                for mb in range(len(minibatches)):
-                    (minibatch_X, minibatch_Y) = minibatches[mb]
-                    sess.run(train_op, {x: minibatch_X, y: minibatch_Y})
-                    mb_c, mb_a = sess.run([loss, accuracy],
-                                          feed_dict={x: minibatch_X,
-                                                     y: minibatch_Y})
+                for k in range(num_batches):
+                    if complete == 0 and k == num_batches - 1:
+                        start = k * batch_size
+                        X_minibatch = X_shu[start::]
+                        Y_minibatch = Y_shu[start::]
+                    else:
+                        start = k * batch_size
+                        end = (k * batch_size) + batch_size
+                        X_minibatch = X_shu[start:end]
+                        Y_minibatch = Y_shu[start:end]
 
-                    if (mb + 1) % 100 == 0 and mb != 0:
-                        print("\tStep {}:".format(mb + 1))
+                    feed_mb = {x: X_minibatch, y: Y_minibatch}
+                    sess.run(train_op, feed_mb)
+
+                    if (k + 1) % 100 == 0 and k != 0:
+                        mb_c, mb_a = sess.run([loss, accuracy], feed_mb)
+                        print("\tStep {}:".format(k + 1))
                         print("\t\tCost: {}".format(mb_c))
                         print("\t\tAccuracy: {}".format(mb_a))
 
-            sess.run(tf.assign(global_step, global_step + 1))
+                    sess.run(tf.assign(global_step, global_step + 1))
 
         return saver.save(sess, save_path)
