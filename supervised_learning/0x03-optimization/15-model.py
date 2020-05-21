@@ -285,6 +285,6 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
                         print("\t\tCost: {}".format(mb_c))
                         print("\t\tAccuracy: {}".format(mb_a))
 
-                    # sess.run(tf.assign(global_step, global_step + 1))
+                    sess.run(tf.assign(global_step, global_step + 1))
 
         return saver.save(sess, save_path)
