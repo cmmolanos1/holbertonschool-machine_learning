@@ -6,7 +6,24 @@ Train miniBatch
 import numpy as np
 import tensorflow as tf
 
-shuffle_data = __import__('2-shuffle_data').shuffle_data
+
+def shuffle_data(X, Y):
+    """Shuffles the data points in two matrices the same way.
+
+    Args:
+        X (np.ndarray): (m, nx) matrix to shuffle.
+        Y (np.ndarray): (m, nx) matrix to shuffle.
+
+    Returns:
+        np.ndarray: shuffled version of X and Y.
+
+    """
+    m = X.shape[0]
+    permutation = list(np.random.permutation(m))
+    shuffled_X = X[permutation, :]
+    shuffled_Y = Y[permutation, :]
+
+    return shuffled_X, shuffled_Y
 
 
 def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
