@@ -6,24 +6,7 @@ Train miniBatch
 import numpy as np
 import tensorflow as tf
 
-
-def shuffle_data(X, Y):
-    """Shuffles the data points in two matrices the same way.
-
-    Args:
-        X (np.ndarray): (m, nx) matrix to shuffle.
-        Y (np.ndarray): (m, nx) matrix to shuffle.
-
-    Returns:
-        np.ndarray: shuffled version of X and Y.
-
-    """
-    m = X.shape[0]
-    permutation = list(np.random.permutation(m))
-    shuffled_X = X[permutation, :]
-    shuffled_Y = Y[permutation, :]
-
-    return shuffled_X, shuffled_Y
+shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
 def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
@@ -71,34 +54,34 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print("\tValidation Accuracy: {}".format(valid_accuracy))
 
             if i < epochs:
-                mini_batches = []
                 X_shu, Y_shu = shuffle_data(X_train, Y_train)
-                num_complete_minibatches = int(m / batch_size)
 
-                for k in range(0, num_complete_minibatches):
-                    start = k * batch_size
-                    end = (k * batch_size) + batch_size
-                    mini_batch_X = X_shu[start: end, :]
-                    mini_batch_Y = Y_shu[start: end, :]
-                    mini_batch = (mini_batch_X, mini_batch_Y)
-                    mini_batches.append(mini_batch)
+                if m % batch_size == 0:
+                    complete = 1
+                    num_batches = int(m / batch_size)
+                else:
+                    complete = 0
+                    num_batches = int(m / batch_size) + 1
 
-                if m % batch_size != 0:
-                    start = num_complete_minibatches * batch_size
-                    mini_batch_X = X_shu[start::, :]
-                    mini_batch_Y = Y_shu[start::, :]
-                    mini_batch = (mini_batch_X, mini_batch_Y)
-                    mini_batches.append(mini_batch)
+                for k in range(num_batches):
+                    if complete == 0 and k == num_batches - 1:
+                        start = k * batch_size
+                        X_minibatch = X_shu[start::]
+                        Y_minibatch = Y_shu[start::]
+                    else:
+                        start = k * batch_size
+                        end = (k * batch_size) + batch_size
+                        X_minibatch = X_shu[start:end]
+                        Y_minibatch = Y_shu[start:end]
 
-                for mb in range(len(mini_batches)):
-                    (minibatch_X, minibatch_Y) = mini_batches[mb]
-                    sess.run(train_op, {x: minibatch_X, y: minibatch_Y})
+                    feed_mb = {x: X_minibatch, y: Y_minibatch}
+
+                    sess.run(train_op, feed_mb)
                     mb_c, mb_a = sess.run([loss, accuracy],
-                                          feed_dict={x: minibatch_X,
-                                                     y: minibatch_Y})
+                                          feed_mb)
 
-                    if (mb + 1) % 100 == 0 and mb != 0:
-                        print("\tStep {}:".format(mb + 1))
+                    if (k + 1) % 100 == 0 and k != 0:
+                        print("\tStep {}:".format(k + 1))
                         print("\t\tCost: {}".format(mb_c))
                         print("\t\tAccuracy: {}".format(mb_a))
 
