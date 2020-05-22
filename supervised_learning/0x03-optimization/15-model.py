@@ -26,6 +26,27 @@ def shuffle_data(X, Y):
     return shuffled_X, shuffled_Y
 
 
+def create_layer(prev, n, activation):
+    """ Create a NN layer.
+
+    Args:
+        prev (tensor): tensor output of the previous layer.
+        n (int): number of nodes in the layer to create.
+        activation (tf.nn.activation): activation function.
+
+    Returns:
+        tensor: the layer created with shape [?, n].
+
+    """
+    init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
+    layer = tf.layers.Dense(units=n,
+                            activation=activation,
+                            kernel_initializer=init,
+                            name="layer")
+
+    return layer(prev)
+
+
 def create_batch_norm_layer(prev, n, activation):
     """Creates a batch normalization layer for a neural network.
 
@@ -107,13 +128,15 @@ def forward_prop(x, layer_sizes=[], activations=[]):
     Returns:
         tensor: prediction of neural network.
     """
-    for layer in range(0, len(layer_sizes)):
-        if layer == 0:
-            A = create_batch_norm_layer(x, layer_sizes[layer],
-                                        activations[layer])
-        else:
+    A = create_batch_norm_layer(x, layer_sizes[0],
+                                activations[0])
+    for layer in range(1, len(layer_sizes)):
+        if layer != len(layer_sizes) - 1:
             A = create_batch_norm_layer(A, layer_sizes[layer],
                                         activations[layer])
+        else:
+            A = create_layer(A, layer_sizes[layer],
+                             activations[layer])
     return A
 
 
@@ -285,6 +308,6 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
                         print("\t\tCost: {}".format(mb_c))
                         print("\t\tAccuracy: {}".format(mb_a))
 
-                    sess.run(tf.assign(global_step, global_step + 1))
+            sess.run(tf.assign(global_step, global_step + 1))
 
         return saver.save(sess, save_path)
