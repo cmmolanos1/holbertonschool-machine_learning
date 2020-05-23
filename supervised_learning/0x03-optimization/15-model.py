@@ -119,6 +119,7 @@ def create_Adam_op(loss, alpha, beta1, beta2, epsilon):
 
 def forward_prop(x, layer_sizes=[], activations=[]):
     """Creates the forward propagation graph for the neural network.
+    Normalizes all layers except the last one.
     Args:
         x (tensor): placeholder for the input data.
         layer_sizes (list): list containing the number of nodes in each layer
@@ -171,41 +172,6 @@ def calculate_loss(y, y_pred):
         tensor: the loss of the prediction
     """
     return tf.losses.softmax_cross_entropy(y, y_pred)
-
-
-def random_mini_batches(X_train, Y_train, batch_size):
-    """Creates a tuples with minibatches
-
-    Args:
-        X_train (np.ndarray): Data input.
-        Y_train (np.ndarray): Labels.
-        batch_size (int): number of examples in a batch.
-
-    Returns:
-        list: (X, Y) * batches_number
-    """
-    m = X_train.shape[0]
-    mini_batches = []
-    X_shu, Y_shu = shuffle_data(X_train, Y_train)
-    num_complete_minibatches = int(X_train.shape[0] / batch_size)
-
-    for k in range(0, num_complete_minibatches):
-        start = k * batch_size
-        end = (k * batch_size) + batch_size
-        mini_batch_X = X_shu[start: end, :]
-        mini_batch_Y = Y_shu[start: end, :]
-        mini_batch = (mini_batch_X, mini_batch_Y)
-        mini_batches.append(mini_batch)
-
-    if m % batch_size != 0:
-        start = num_complete_minibatches * batch_size
-        mini_batch_X = X_shu[start::, :]
-        mini_batch_Y = Y_shu[start::, :]
-        mini_batch = (mini_batch_X, mini_batch_Y)
-        mini_batches.append(mini_batch)
-
-    return mini_batches
-
 
 def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
           beta2=0.999, epsilon=1e-8, decay_rate=1, batch_size=32, epochs=5,
