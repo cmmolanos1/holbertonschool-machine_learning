@@ -17,11 +17,13 @@ def specificity(confusion):
                         each class.
     """
     classes = confusion.shape[0]
-    TNR = np.zeros((classes,))
-    for i in range(classes):
-        TN = np.sum(confusion) - np.sum(confusion[i])\
-             - np.sum(confusion[:, i]) + confusion[i, i]
-        FP = np.sum(confusion[:, i]) - confusion[i, i]
-        TNR[i] = TN / (TN + FP)
 
-    return TNR
+    total = np.array([np.sum(confusion)] * classes)
+    FN = np.sum(confusion, axis=0)
+    FP = np.sum(confusion, axis=1)
+    TP = confusion.diagonal()
+
+    TN = total - FN - FP + TP
+    FP = FN - TP
+
+    return TN / (TN + FP)
