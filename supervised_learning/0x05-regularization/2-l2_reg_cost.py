@@ -16,4 +16,4 @@ def l2_reg_cost(cost):
     Returns:
         tensor: the cost of the network accounting for L2 regularization.
     """
-    return tf.contrib.layers.l2_regularizer(cost)
+    return cost + tf.losses.get_regularization_loss()
