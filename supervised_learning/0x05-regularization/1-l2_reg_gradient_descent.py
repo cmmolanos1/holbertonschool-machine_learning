@@ -7,6 +7,21 @@ import numpy as np
 
 
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
+    """Updates the weights and biases of a neural network using gradient
+       descent with L2 regularization.
+
+    Args:
+        Y (np.ndarray): one-hot matrix of shape (classes, m) that contains
+                        the correct labels for the data.
+        weights (dict): the weights and biases of the neural network.
+        cache (dict): the outputs of each layer of the neural network.
+        alpha (float):  learning rate.
+        lambtha (float): L2 regularization parameter.
+        L (int): number of layers of the network.
+
+    Returns:
+        dict: weights and biases of the network should be updated in place.
+    """
     m = Y.shape[1]
     dz = {}
     dW = {}
