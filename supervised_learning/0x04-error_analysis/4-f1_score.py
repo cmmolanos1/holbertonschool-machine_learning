@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+F1
+"""
 
 import numpy as np
 

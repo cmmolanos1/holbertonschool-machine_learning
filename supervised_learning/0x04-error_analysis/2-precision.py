@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Precision
+"""
 
 import numpy as np
 
@@ -7,7 +10,7 @@ def precision(confusion):
     """Calculates the precision for each class in a confusion matrix.
 
         Args:
-            confusion (np.ndarray): confusion matrix of shape (classes, classes)
+            confusion (np.ndarray): confusion matrix of shape(classes,classes)
                                     where row indices represent the correct
                                     labels and column indices represent the
                                     predicted labels.

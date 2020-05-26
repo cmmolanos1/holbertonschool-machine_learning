@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Confusion Matrix
+"""
 
 import numpy as np
 
@@ -17,10 +20,4 @@ def create_confusion_matrix(labels, logits):
                     indices representing the correct labels and column indices
                     representing the predicted labels.
     """
-    m, classes = labels.shape
-    confusion = np.zeros((classes, classes))
-    max_labels = np.argmax(labels, axis=1)
-    max_logits = np.argmax(logits, axis=1)
-    np.add.at(confusion, [max_labels, max_logits], 1)
-
-    return confusion
+    return np.matmul(labels.T, logits)
