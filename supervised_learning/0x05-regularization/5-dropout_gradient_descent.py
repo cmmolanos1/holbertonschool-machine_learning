@@ -71,5 +71,3 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
             if la == 1:
                 weights['W1'] -= alpha * dW['dW1']
                 weights['b1'] -= alpha * db['db1']
-
-    return weights

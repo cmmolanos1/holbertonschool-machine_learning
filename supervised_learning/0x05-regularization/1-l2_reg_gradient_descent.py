@@ -66,5 +66,3 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
             if la == 1:
                 weights['W1'] -= alpha * dW['dW1']
                 weights['b1'] -= alpha * db['db1']
-
-    return weights
