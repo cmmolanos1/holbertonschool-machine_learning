@@ -14,6 +14,9 @@ def optimize_model(network, alpha, beta1, beta2):
         alpha: learning rate.
         beta1: first Adam optimization parameter.
         beta2: Second Adam optimization parameter.
+
+    Returns:
+        None
     """
     network.compile(optimizer=tf.keras.optimizers.Adam(lr=alpha,
                                                        beta_1=beta1,
