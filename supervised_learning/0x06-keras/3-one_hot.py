@@ -2,7 +2,7 @@
 """
 One hot matrix
 """
-from tensorflow.python.keras.utils import to_categorical
+import tensorflow.keras as K
 
 
 def one_hot(labels, classes=None):
@@ -15,4 +15,4 @@ def one_hot(labels, classes=None):
     Returns:
         the one-hot matrix.
     """
-    return to_categorical(labels, classes)
+    return K.utils.to_categorical(labels, classes)

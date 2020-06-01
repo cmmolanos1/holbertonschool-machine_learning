@@ -2,9 +2,7 @@
 """
 Train
 """
-
-from tensorflow.python.keras.callbacks import EarlyStopping, \
-    LearningRateScheduler, ModelCheckpoint
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
@@ -50,13 +48,16 @@ def train_model(network, data, labels, batch_size, epochs,
     callbacks = []
 
     if validation_data and learning_rate_decay:
-        callbacks.append(LearningRateScheduler(step_decay, verbose=1))
+        callbacks.append(K.callbacks.LearningRateScheduler(step_decay,
+                                                           verbose=1))
 
     if validation_data and early_stopping:
-        callbacks.append(EarlyStopping(monitor="val_loss", patience=patience))
+        callbacks.append(K.callbacks.EarlyStopping(monitor="val_loss",
+                                                   patience=patience))
 
     if save_best:
-        callbacks.append(ModelCheckpoint(filepath, save_best_only=True))
+        callbacks.append(K.callbacks.ModelCheckpoint(filepath,
+                                                     save_best_only=True))
 
     return network.fit(x=data,
                        y=labels,

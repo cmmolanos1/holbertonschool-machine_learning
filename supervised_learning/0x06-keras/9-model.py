@@ -3,7 +3,7 @@
 Models
 """
 
-from tensorflow import keras
+import tensorflow.keras as K
 
 
 def save_model(network, filename):
@@ -29,4 +29,4 @@ def load_model(filename):
     Returns:
         the loaded model.
     """
-    return keras.models.load_model(filename)
+    return K.models.load_model(filename)

@@ -3,7 +3,7 @@
 Config
 """
 
-from tensorflow import keras
+import tensorflow.keras as K
 
 
 def save_config(network, filename):
@@ -34,6 +34,6 @@ def load_config(filename):
     with open(filename, "r") as json_file:
         loaded_model_json = json_file.read()
 
-    loaded_model = keras.models.model_from_json(loaded_model_json)
+    loaded_model = K.models.model_from_json(loaded_model_json)
 
     return loaded_model

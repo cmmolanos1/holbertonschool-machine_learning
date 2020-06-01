@@ -2,8 +2,7 @@
 """
 Train
 """
-
-from tensorflow.python.keras.callbacks import EarlyStopping
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
@@ -34,7 +33,8 @@ def train_model(network, data, labels, batch_size, epochs,
     """
     callbacks = []
     if validation_data and early_stopping:
-        callbacks.append(EarlyStopping(monitor="val_loss", patience=patience))
+        callbacks.append(K.callbacks.EarlyStopping(monitor="val_loss",
+                                                   patience=patience))
 
     return network.fit(x=data,
                        y=labels,

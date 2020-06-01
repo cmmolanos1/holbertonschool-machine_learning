@@ -2,8 +2,7 @@
 """
 Sequential
 """
-from tensorflow import keras
-from tensorflow.python.keras.layers import Dense, Dropout, Input
+import tensorflow.keras as K
 
 
 def build_model(nx, layers, activations, lambtha, keep_prob):
@@ -21,17 +20,17 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     Returns:
         the keras model
     """
-    X_input = Input(shape=(nx,))
+    X_input = K.layers.Input(shape=(nx,))
 
-    X = Dense(layers[0],
-              activation=activations[0],
-              kernel_regularizer=keras.regularizers.l2(lambtha))(X_input)
+    X = K.layers.Dense(layers[0],
+                       activation=activations[0],
+                       kernel_regularizer=K.regularizers.l2(lambtha))(X_input)
 
     for nodes, act in zip(layers[1::], activations[1::]):
-        X = Dropout(1 - keep_prob)(X)
-        X = Dense(nodes,
-                  activation=act,
-                  kernel_regularizer=keras.regularizers.l2(lambtha))(X)
+        X = K.layers.Dropout(1 - keep_prob)(X)
+        X = K.layers.Dense(nodes,
+                           activation=act,
+                           kernel_regularizer=K.regularizers.l2(lambtha))(X)
 
-    model = keras.Model(inputs=X_input, outputs=X)
+    model = K.Model(inputs=X_input, outputs=X)
     return model

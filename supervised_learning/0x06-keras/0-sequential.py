@@ -2,9 +2,7 @@
 """
 Sequential
 """
-from tensorflow import keras
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Dropout
+import tensorflow.keras as K
 
 
 def build_model(nx, layers, activations, lambtha, keep_prob):
@@ -22,15 +20,16 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
     Returns:
         the keras model
     """
-    model = Sequential()
-    model.add(Dense(layers[0],
-                    input_dim=nx,
-                    activation=activations[0],
-                    kernel_regularizer=keras.regularizers.l2(lambtha)))
+    model = K.models.Sequential()
+    model.add(K.layers.Dense(layers[0],
+                             input_dim=nx,
+                             activation=activations[0],
+                             kernel_regularizer=K.regularizers.l2(lambtha)))
     for nodes, act in zip(layers[1::], activations[1::]):
-        model.add(Dropout(1 - keep_prob))
-        model.add(Dense(nodes,
+        model.add(K.layers.Dropout(1 - keep_prob))
+        model.add(K.layers.
+                  Dense(nodes,
                         activation=act,
-                        kernel_regularizer=keras.regularizers.l2(lambtha)))
+                        kernel_regularizer=K.regularizers.l2(lambtha)))
 
     return model
