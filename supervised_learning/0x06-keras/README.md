@@ -774,6 +774,7 @@ Write the following functions:
           dtype=float32)]
     ubuntu@alexa-ml:~/0x06-keras$
     
+    
 #### 10\. Save and Load Weights mandatory
 
 Write the following functions:
