@@ -4,8 +4,8 @@ Train
 """
 
 
-def train_model(network, data, labels, batch_size, epochs, verbose=True,
-                shuffle=False):
+def train_model(network, data, labels, batch_size, epochs,
+                validation_data=None, verbose=True, shuffle=False):
     """Trains a model using mini-batch gradient descent.
 
     Args:
@@ -17,6 +17,7 @@ def train_model(network, data, labels, batch_size, epochs, verbose=True,
                           descent.
         epochs (int): number of passes through data for mini-batch gradient
                       descent.
+        validation_data (tuple): data to validate the model with, if not None.
         verbose (bool): determines if output should be printed during training.
         shuffle (bool): determines whether to shuffle the batches every epoch.
         Normally, it is a good idea to shuffle, but for reproducibility, we
@@ -26,5 +27,10 @@ def train_model(network, data, labels, batch_size, epochs, verbose=True,
         The History object generated after training the model.
 
     """
-    return network.fit(data, labels, batch_size, epochs,
-                       verbose, shuffle)
+    return network.fit(x=data,
+                       y=labels,
+                       batch_size=batch_size,
+                       epochs=epochs,
+                       verbose=verbose,
+                       validation_data=validation_data,
+                       shuffle=shuffle)
