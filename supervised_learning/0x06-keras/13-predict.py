@@ -2,6 +2,7 @@
 """
 Prediction
 """
+import tensorflow.keras as K
 
 
 def predict(network, data, verbose=False):
