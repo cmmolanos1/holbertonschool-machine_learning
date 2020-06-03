@@ -16,7 +16,7 @@ def convolve_grayscale_valid(images, kernel):
         np.ndarray: The convolved images.
     """
     m, h, w = images.shape
-    kh, kw = kernel.shapej
+    kh, kw = kernel.shape
 
     ch = h - kh + 1
     cw = w - kw + 1
