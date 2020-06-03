@@ -33,7 +33,10 @@ Write a function `def convolve_grayscale_valid(images, kernel):` that performs a
     (50000, 28, 28)
     (50000, 26, 26)
     
-![]()
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/0.png)
+
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/0-conv.png)
 
 #### 1\. Same Convolution mandatory
 
@@ -64,6 +67,9 @@ Write a function `def convolve_grayscale_same(images, kernel):` that performs a 
     (50000, 28, 28)
     (50000, 28, 28)
     
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/0.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/1-conv.png)
 
 
 #### 2\. Convolution with Padding mandatory
@@ -95,6 +101,9 @@ Write a function `def convolve_grayscale_padding(images, kernel, padding):` that
     (50000, 28, 28)
     (50000, 30, 34)
     
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/0.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/2-conv.png)
 
 
 #### 3\. Strided Convolution mandatory
@@ -126,6 +135,9 @@ Write a function `def convolve_grayscale(images, kernel, padding='same', stride=
     (50000, 28, 28)
     (50000, 13, 13)
     
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/0.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/3-conv.png)
 
 
 #### 4\. Convolution with Channels mandatory
@@ -157,6 +169,9 @@ Write a function `def convolve_channels(images, kernel, padding='same', stride=(
     (10000, 32, 32, 3)
     (10000, 30, 30)
     
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/4.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/4-conv.png)
 
 
 #### 5\. Multiple Kernels mandatory
@@ -195,6 +210,13 @@ Write a function `def convolve(images, kernels, padding='same', stride=(1, 1)):`
     (10000, 32, 32, 3)
     (10000, 30, 30, 3)
     
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/4.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/5-conv1.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/5-conv2.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/5-conv3.png)
 
 
 #### 6\. Pooling mandatory
@@ -225,4 +247,8 @@ Write a function `def pool(images, kernel_shape, stride, mode='max'):` that perf
     (10000, 32, 32, 3)
     (10000, 16, 16, 3)
     
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/4.png)
+
+![](https://raw.githubusercontent.com/cmmolanos1/holbertonschool-machine_learning/master/math/0x04-convolutions_and_pooling/pics/6.png)
 
