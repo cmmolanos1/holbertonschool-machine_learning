@@ -26,22 +26,22 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     kh, kw, _ = kernel.shape
     sh, sw = stride
 
+    ph = 0
+    pw = 0
+
     if padding == 'same':
-        ph = int(kh / 2)
-        pw = int(kw / 2)
+        ph = int(((h - 1) * sh + kh - h) / 2) + 1
+        pw = int(((w - 1) * sw + kw - w) / 2) + 1
 
-    elif padding == 'valid':
-        ph, pw = (0, 0)
-
-    elif padding is tuple and len(padding) == 2:
+    if type(padding) == tuple:
         ph, pw = padding
 
     padded_img = np.pad(images,
                         ((0, 0), (ph, ph), (pw, pw), (0, 0)),
                         'constant')
 
-    ch = int((h + 2 * ph - kh) / sh) + 1
-    cw = int((w + 2 * pw - kw) / sw) + 1
+    ch = int(((h + 2 * ph - kh) / sh) + 1)
+    cw = int(((w + 2 * pw - kw) / sw) + 1)
 
     convolved = np.zeros((m, ch, cw))
 
