@@ -46,9 +46,9 @@ def convolve(images, kernels, padding='same', stride=(1, 1)):
 
     convolved = np.zeros((m, ch, cw, c))
 
-    for n in range(nc):
-        for j in range(ch):
-            for k in range(cw):
+    for j in range(ch):
+        for k in range(cw):
+            for n in range(nc):
 
                 images_slide = padded_img[:,
                                           j * sh:j * sh + kh,
