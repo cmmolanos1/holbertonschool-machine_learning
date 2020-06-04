@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Channels
+"""
 
 import numpy as np
 

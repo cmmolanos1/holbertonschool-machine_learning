@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Multikernels
+"""
 
 import numpy as np
 

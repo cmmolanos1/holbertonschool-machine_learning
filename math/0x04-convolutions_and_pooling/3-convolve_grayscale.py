@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Grayscale
+"""
 
 import numpy as np
 
