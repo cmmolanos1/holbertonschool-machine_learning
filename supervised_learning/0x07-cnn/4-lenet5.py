@@ -23,6 +23,7 @@ def lenet5(x, y):
     C1 = tf.layers.Conv2D(filters=6,
                           kernel_size=5,
                           padding='same',
+                          activation=tf.nn.relu,
                           kernel_initializer=init)(x)
 
     S2 = tf.layers.MaxPooling2D(pool_size=(2, 2),
@@ -31,6 +32,7 @@ def lenet5(x, y):
     C3 = tf.layers.Conv2D(filters=16,
                           kernel_size=5,
                           padding='valid',
+                          activation=tf.nn.relu,
                           kernel_initializer=init)(S2)
 
     S4 = tf.layers.MaxPooling2D(pool_size=(2, 2),
