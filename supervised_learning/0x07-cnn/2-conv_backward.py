@@ -32,7 +32,6 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     sh, sw = stride
     m, h_new, w_new, c_new = dZ.shape
 
-
     dW = np.zeros(W.shape)
     db = np.zeros(b.shape)
 
