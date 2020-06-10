@@ -32,8 +32,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     sh, sw = stride
     m, h_new, w_new, c_new = dZ.shape
 
-    dW = np.zeros(W.shape)
-    db = np.zeros(b.shape)
+    dW = np.zeros_like(W)
+    db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     ph = 0
     pw = 0
@@ -45,16 +45,9 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     A_prev_pad = np.pad(A_prev,
                         ((0, 0), (ph, ph), (pw, pw), (0, 0)),
                         'constant')
-
-    dA_prev = np.zeros(A_prev_pad.shape)
-    dA_prev_pad = np.pad(dA_prev,
-                         ((0, 0), (ph, ph), (pw, pw), (0, 0)),
-                         'constant')
+    dA_prev = np.zeros_like(A_prev_pad)
 
     for i in range(m):
-        a_prev_pad = A_prev_pad[i]
-        da_prev_pad = dA_prev_pad[i]
-
         for h in range(h_new):
             for w in range(w_new):
                 for c in range(c_new):
@@ -63,20 +56,19 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     horiz_start = w * sw
                     horiz_end = w * sw + kw
 
-                    a_slice = a_prev_pad[vert_start:vert_end,
-                                         horiz_start:horiz_end,
-                                         :]
+                    dA_prev[i,
+                            vert_start:vert_end,
+                            horiz_start:horiz_end:,
+                            :] += W[:, :, :, c] * dZ[i, h, w, c]
 
-                    da_prev_pad[vert_start:vert_end,
-                                horiz_start:horiz_end,
-                                :] += W[:, :, :, c] * dZ[i, h, w, c]
-                    dW[:, :, :, c] += a_slice * dZ[i, h, w, c]
-                    db[:, :, :, c] += dZ[i, h, w, c]
+                    dW[:, :, :, c] += A_prev_pad[i,
+                                                 vert_start:vert_end,
+                                                 horiz_start:horiz_end:,
+                                                 :] * dZ[i, h, w, c]
 
-        if padding == 'same':
-            dA_prev[i, :, :, :] = da_prev_pad[ph:-ph, pw:-pw, :]
-
-        else:
-            dA_prev[i, :, :, :] = da_prev_pad[:, :, :]
+    if padding == 'same':
+        dA_prev = dA_prev[:, ph:-ph, pw:-pw, :]
+    else:
+        dA_prev = dA_prev
 
     return dA_prev, dW, db
