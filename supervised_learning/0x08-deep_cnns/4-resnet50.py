@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Resnet 50
+"""
 
 import tensorflow.keras as K
 
