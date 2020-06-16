@@ -22,44 +22,44 @@ def projection_block(A_prev, filters, s=2):
     Returns:
         The activated output of the identity block.
     """
-    conv1 = K.layers.Conv2D(filters=filters[0],
-                            kernel_size=1,
-                            padding='same',
-                            strides=(s, s),
-                            kernel_initializer='he_normal')(A_prev)
+    X = K.layers.Conv2D(filters=filters[0],
+                        kernel_size=1,
+                        padding='same',
+                        strides=(s, s),
+                        kernel_initializer='he_normal')(A_prev)
 
-    batch1 = K.layers.BatchNormalization()(conv1)
+    X = K.layers.BatchNormalization(axis=3)(X)
 
-    relu1 = K.layers.Activation('relu')(batch1)
+    X = K.layers.Activation('relu')(X)
 
-    conv2 = K.layers.Conv2D(filters=filters[1],
-                            kernel_size=3,
-                            padding='same',
-                            # strides=(s, s),
-                            kernel_initializer='he_normal')(relu1)
+    X = K.layers.Conv2D(filters=filters[1],
+                        kernel_size=3,
+                        padding='same',
+                        # strides=(s, s),
+                        kernel_initializer='he_normal')(X)
 
-    batch2 = K.layers.BatchNormalization()(conv2)
+    X = K.layers.BatchNormalization()(X)
 
-    relu2 = K.layers.Activation('relu')(batch2)
+    X = K.layers.Activation('relu')(X)
 
-    conv3 = K.layers.Conv2D(filters=filters[2],
-                            kernel_size=1,
-                            padding='same',
-                            # strides=(s, s),
-                            kernel_initializer='he_normal')(relu2)
+    X = K.layers.Conv2D(filters=filters[2],
+                        kernel_size=1,
+                        padding='same',
+                        # strides=(s, s),
+                        kernel_initializer='he_normal')(X)
 
-    batch3 = K.layers.BatchNormalization()(conv3)
+    X = K.layers.BatchNormalization()(X)
 
     # Shortcut connection.
-    conv_sc = K.layers.Conv2D(filters=filters[2],
-                              kernel_size=1,
-                              padding='same',
-                              strides=(s, s),
-                              kernel_initializer='he_normal')(A_prev)
+    shortcut = K.layers.Conv2D(filters=filters[2],
+                               kernel_size=1,
+                               padding='same',
+                               strides=(s, s),
+                               kernel_initializer='he_normal')(A_prev)
 
-    batch_sc = K.layers.BatchNormalization()(conv_sc)
+    shortcut = K.layers.BatchNormalization()(shortcut)
 
-    adding = K.layers.Add()([batch3, batch_sc])
+    adding = K.layers.Add()([X, shortcut])
 
     output = K.layers.Activation('relu')(adding)
 
