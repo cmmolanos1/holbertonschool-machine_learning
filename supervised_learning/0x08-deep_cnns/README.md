@@ -998,7 +998,8 @@ Write a function `def densenet121(growth_rate=32, compression=1.0):` that builds
     *   `transition_layer = __import__('6-transition_layer').transition_layer`
 *   Returns: the keras model
 
- ubuntu@alexa-ml:~/supervised_learning/0x08-deep_cnns$ cat 7-main.py 
+```
+ubuntu@alexa-ml:~/supervised_learning/0x08-deep_cnns$ cat 7-main.py 
 #!/usr/bin/env python3
 
 densenet121 = __import__('7-densenet121').densenet121
