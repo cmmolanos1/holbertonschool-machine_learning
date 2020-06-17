@@ -48,7 +48,7 @@ def dense_block(X, nb_filters, growth_rate, layers):
     """
     for i in range(layers):
         conv_outputs = bottlenecks(X, growth_rate)
-        X = K.layers.Concatenate()([conv_outputs, X])
+        X = K.layers.concatenate([conv_outputs, X])
         nb_filters += growth_rate
 
     return X, nb_filters
