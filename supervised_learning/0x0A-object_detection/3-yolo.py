@@ -248,7 +248,7 @@ class Yolo():
         tmp_classes = []
         tmp_scores = []
 
-        for clase in set(box_classes):
+        for clase in np.unique(box_classes):
             # filter the inputs by the current class.
             indexes = np.where(box_classes == clase)
             boxes_ofclas = filtered_boxes[indexes]
