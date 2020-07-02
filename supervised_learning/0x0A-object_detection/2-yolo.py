@@ -153,3 +153,65 @@ class Yolo():
             box_class_probs.append(box_class_prob)
 
         return boxes, box_confidences, box_class_probs
+
+    def filter_boxes(self, boxes, box_confidences, box_class_probs):
+        """Filters the boxex.
+
+        Args:
+            boxes (list): contains ndarrays of shape
+                          (grid_height, grid_width, anchor_boxes, 4)
+                          containing the processed boundary boxes for each
+                          output, respectively.
+            box_confidences (list): contains ndarrays of shape
+                                    (grid_height, grid_width, anchor_boxes, 1)
+                                    containing the processed box confidences
+                                    for each output, respectively.
+            box_class_probs (list): contains ndarrays of shape
+                                    (grid_height, grid_width,
+                                    anchor_boxes, classes)
+                                    containing the processed box class
+                                    probabilities for each output,
+                                    respectively.
+
+        Returns:
+            A tuple of (filtered_boxes, box_classes, box_scores):
+
+            * filtered_boxes: a numpy.ndarray of shape (?, 4) containing all
+                              of the filtered bounding boxes.
+            * box_classes: a numpy.ndarray of shape (?,) containing the class
+                           number that each box in filtered_boxes predicts,
+                           respectively.
+            * box_scores: a numpy.ndarray of shape (?) containing the box
+                          scores for each box in filtered_boxes, respectively.
+        """
+        # Step 1: Compute box scores
+        box_scores = []
+        for box_confidence, box_class_prob in zip(box_confidences,
+                                                  box_class_probs):
+            box_scores.append(box_confidence * box_class_prob)
+
+        # Step 2: Find the box_classes using the max box_scores, keep track of
+        # the corresponding score
+        box_class = [score.argmax(axis=-1) for score in box_scores]
+        box_class_list = [box.reshape(-1) for box in box_class]
+        box_class_concat = np.concatenate(box_class_list, axis=-1)
+
+        box_class_scores = [score.max(axis=-1) for score in box_scores]
+        box_score_list = [box.reshape(-1) for box in box_class_scores]
+        box_scores_concat = np.concatenate(box_score_list, axis=-1)
+
+        boxes_list = [box.reshape(-1, 4) for box in boxes]
+        boxes_concat = np.concatenate(boxes_list, axis=0)
+
+        # Step 3: Create a filtering mask based on "box_class_scores" by using
+        # "threshold". The mask should have the same dimension as
+        # box_class_scores, and be True for the boxes you want to keep
+        # (with probability >= threshold)
+        filtering_mask = np.where(box_scores_concat >= self.class_t)
+
+        # Step 4: Apply the mask to box_class_scores, boxes and box_classes
+        boxes_ = boxes_concat[filtering_mask]
+        box_classes = box_class_concat[filtering_mask]
+        box_scores = box_scores_concat[filtering_mask]
+
+        return (boxes_, box_classes, box_scores)
