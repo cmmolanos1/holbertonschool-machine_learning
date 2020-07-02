@@ -216,97 +216,73 @@ class Yolo():
 
         return (boxes_, box_classes, box_scores)
 
-    def iou(box1, box2):
-        """Implement the intersection over union (IoU) between box1 and box2
-
-        Arguments:
-        box1 -- first box, list object with coordinates (x1, y1, x2, y2)
-        box2 -- second box, list object with coordinates (x1, y1, x2, y2)
-        """
-
-        # Calculate the (y1, x1, y2, x2) coordinates of the intersection of
-        # box1 and box2. Calculate its Area.
-        xi1 = np.maximum(box1[0], box2[0])
-        yi1 = np.maximum(box1[1], box2[1])
-        xi2 = np.minimum(box1[2], box2[2])
-        yi2 = np.minimum(box1[3], box2[3])
-        inter_area = (xi2 - xi1) * (yi2 - yi1)
-
-        # Calculate the Union area by using Formula:
-        # Union(A,B) = A + B - Inter(A,B)
-        box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
-        box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
-        union_area = box1_area + box2_area - inter_area
-
-        # compute the IoU
-        iou = inter_area / union_area
-
-        return iou
-
-    def nms(self, dets, scores, thresh):
-        """Computes the non_max_supression.
-        Written by Ross Girshick.
-        web: github.com/rbgirshick/fast-rcnn/blob/master/lib/utils/nms.py
-        theory:towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
-
-        Args:
-            dets (np.ndarray): filtered boxes
-            scores (np.ndarray): filteres scores for each box.
-            thresh (float): non max supression threshold.
-
-        Returns:
-            keep (list): the survival indexes for each
-        """
-        x1 = dets[:, 0]
-        y1 = dets[:, 1]
-        x2 = dets[:, 2]
-        y2 = dets[:, 3]
-
-        areas = (x2 - x1 + 1) * (y2 - y1 + 1)
-        order = scores.argsort()[::-1]
-
-        keep = []
-        while order.size > 0:
-            i = order[0]
-            keep.append(i)
-            xx1 = np.maximum(x1[i], x1[order[1:]])
-            yy1 = np.maximum(y1[i], y1[order[1:]])
-            xx2 = np.minimum(x2[i], x2[order[1:]])
-            yy2 = np.minimum(y2[i], y2[order[1:]])
-
-            w = np.maximum(0.0, xx2 - xx1 + 1)
-            h = np.maximum(0.0, yy2 - yy1 + 1)
-            inter = w * h
-            ovr = inter / (areas[i] + areas[order[1:]] - inter)
-
-            inds = np.where(ovr <= thresh)[0]
-            order = order[inds + 1]
-
-        return keep
-
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
         """Perform non max suppression
 
         Args:
-            filtered_boxes:
-            box_classes:
-            box_scores:
+            filtered_boxes (np.ndarray): matrix of shape (?, 4) containing all
+                                         of the filtered bounding boxes.
+            box_classes (np.ndarray): matrix of shape (?,) containing the
+                                      class number for the class that
+                                      filtered_boxes predicts, respectively.
+            box_scores (np.ndarray): matrix of shape (?) containing the box
+                                     scores for each box in filtered_boxes,
+                                     respectively.
 
         Returns:
+            Tuple of
+            (box_predictions, predicted_box_classes, predicted_box_scores):
 
+            * box_predictions: a numpy.ndarray of shape (?, 4) containing all
+                               of the predicted bounding boxes ordered by
+                               class and box score.
+            * predicted_box_classes: a numpy.ndarray of shape (?,) containing
+                                     the class number for box_predictions
+                                     ordered by class and box score,
+                                     respectively.
+            * predicted_box_scores: a numpy.ndarray of shape (?) containing
+                                    the box scores for box_predictions ordered
+                                    by class and box score, respectively.
         """
         tmp_boxes = []
         tmp_classes = []
         tmp_scores = []
 
         for clase in set(box_classes):
+            # filter the inputs by the current class.
             indexes = np.where(box_classes == clase)
             boxes_ofclas = filtered_boxes[indexes]
             classes_ofclas = box_classes[indexes]
             scores_ofclas = box_scores[indexes]
 
-            keep = self.nms(boxes_ofclas, scores_ofclas, self.nms_t)
+            # theory:towardsdatascience.com/
+            # non-maximum-suppression-nms-93ce178e177c
+            x1 = boxes_ofclas[:, 0]
+            y1 = boxes_ofclas[:, 1]
+            x2 = boxes_ofclas[:, 2]
+            y2 = boxes_ofclas[:, 3]
 
+            areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+            order = scores_ofclas.argsort()[::-1]
+
+            keep = []
+            while order.size > 0:
+                i = order[0]
+                keep.append(i)
+                xx1 = np.maximum(x1[i], x1[order[1:]])
+                yy1 = np.maximum(y1[i], y1[order[1:]])
+                xx2 = np.minimum(x2[i], x2[order[1:]])
+                yy2 = np.minimum(y2[i], y2[order[1:]])
+
+                w = np.maximum(0.0, xx2 - xx1 + 1)
+                h = np.maximum(0.0, yy2 - yy1 + 1)
+                inter = w * h
+                ovr = inter / (areas[i] + areas[order[1:]] - inter)
+
+                inds = np.where(ovr <= self.nms_t)[0]
+                order = order[inds + 1]
+
+            # Append the survival indexes.
             tmp_boxes.append(boxes_ofclas[keep])
             tmp_classes.append(classes_ofclas[keep])
             tmp_scores.append(scores_ofclas[keep])
@@ -315,4 +291,4 @@ class Yolo():
         classes_predic = np.concatenate(tmp_classes, axis=0)
         scores_predic = np.concatenate(tmp_scores, axis=0)
 
-        return (boxes_predic, classes_predic, scores_predic)
+        return boxes_predic, classes_predic, scores_predic
