@@ -62,28 +62,16 @@ def minor(matrix):
     Returns:
         the determinant.
     """
-    # if type(matrix) is not list or len(matrix) == 0:
-    #     raise TypeError("matrix must be a list of lists")
-    # if all([type(i) is list for i in matrix]) is False:
-    #     raise TypeError("matrix must be a list of lists")
-    #
-    # if (matrix[0] and len(matrix) != len(matrix[0])) or \
-    #         matrix == [] or matrix == [[]]:
-    #     raise ValueError("matrix must be a non-empty square matrix")
-    #
-    # if len(matrix) == 1:
-    #     return [[1]]
-
-    if (type(matrix) != list or len(matrix) == 0 or
-       not all([type(m) == list for m in matrix])):
+    if type(matrix) is not list or len(matrix) == 0:
         raise TypeError("matrix must be a list of lists")
-    lm = len(matrix)
-    if lm == 1 and len(matrix[0]) == 0:
+    if all([type(i) is list for i in matrix]) is False:
+        raise TypeError("matrix must be a list of lists")
+    if len(matrix) == 1 and len(matrix[0]) == 0:
         raise ValueError("matrix must be a non-empty square matrix")
-    if not all([len(n) == lm for n in matrix]):
+
+    if (matrix[0] and len(matrix) != len(matrix[0])) or \
+            matrix == [] or matrix == [[]]:
         raise ValueError("matrix must be a non-empty square matrix")
-    if lm == 1 and len(matrix[0]) == 1:
-        return [[1]]
 
     return [[determinant(minor_m(matrix, i, j))
              for j in range(len(matrix[i]))] for i in range(len(matrix))]
