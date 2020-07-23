@@ -4,18 +4,19 @@ Determinant
 """
 
 
-def omite(m, index):
-    """Omite the 1st row and index column of a square matrix.
+def minor_m(m, row, col):
+    """Omite the the given row and column of a square matrix.
 
     Args:
         m (list): matrix.
-        index (int): column to omite.
+        row (int): row to omite.
+        col (int): column to omite.
 
     Returns:
         the matrix with the omited row, column.
     """
-    return [[m[i][j] for j in range(len(m[i])) if j != index]
-            for i in range(1, len(m))]
+    return [[m[i][j] for j in range(len(m[i])) if j != col]
+            for i in range(len(m)) if i != row]
 
 
 def determinant(matrix):
@@ -46,25 +47,10 @@ def determinant(matrix):
 
     det = 0
     for j in range(len(matrix[0])):
-        omited_matrix = omite(matrix, j)
+        omited_matrix = minor_m(matrix, 0, j)
         det += matrix[0][j] * ((-1) ** j) * determinant(omited_matrix)
 
     return det
-
-
-def minor_m(m, row, col):
-    """Omite the the given row and column of a square matrix.
-
-    Args:
-        m (list): matrix.
-        row (int): row to omite.
-        col (int): column to omite.
-
-    Returns:
-        the matrix with the omited row, column.
-    """
-    return [[m[i][j] for j in range(len(m[i])) if j != col]
-            for i in range(len(m)) if i != row]
 
 
 def transponse(m):
@@ -121,8 +107,11 @@ def inverse(matrix):
     if all([type(i) is list for i in matrix]) is False:
         raise TypeError("matrix must be a list of lists")
 
-    if (matrix[0] and len(matrix) != len(matrix[0])) or \
-            matrix == [] or matrix == [[]]:
+    if (len(matrix) == 0 or len(matrix) != len(matrix[0])) \
+            or matrix == [[]]:
+        raise ValueError("matrix must be a non-empty square matrix")
+
+    if any([len(l) != len(matrix) for l in matrix]):
         raise ValueError("matrix must be a non-empty square matrix")
 
     det = determinant(matrix)
