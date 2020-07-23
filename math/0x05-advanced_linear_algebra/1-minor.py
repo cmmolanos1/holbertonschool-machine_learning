@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 """
-Determinant
+Minor
 """
 
 
-def omite(m, index):
-    """Omite the 1st row and index column of a square matrix.
+def minor_m(m, row, col):
+    """Omite the the given row and column of a square matrix.
 
     Args:
         m (list): matrix.
-        index (int): column to omite.
+        row (int): row to omite.
+        col (int): column to omite.
 
     Returns:
         the matrix with the omited row, column.
     """
-    return [[m[i][j] for j in range(len(m[i])) if j != index]
-            for i in range(1, len(m))]
+    return [[m[i][j] for j in range(len(m[i])) if j != col]
+            for i in range(len(m)) if i != row]
 
 
 def determinant(matrix):
@@ -46,25 +47,10 @@ def determinant(matrix):
 
     det = 0
     for j in range(len(matrix[0])):
-        omited_matrix = omite(matrix, j)
+        omited_matrix = minor_m(matrix, 0, j)
         det += matrix[0][j] * ((-1) ** j) * determinant(omited_matrix)
 
     return det
-
-
-def minor_m(m, row, col):
-    """Omite the the given row and column of a square matrix.
-
-    Args:
-        m (list): matrix.
-        row (int): row to omite.
-        col (int): column to omite.
-
-    Returns:
-        the matrix with the omited row, column.
-    """
-    return [[m[i][j] for j in range(len(m[i])) if j != col]
-            for i in range(len(m)) if i != row]
 
 
 def minor(matrix):
@@ -87,6 +73,9 @@ def minor(matrix):
 
     if len(matrix) == 1 and len(matrix[0]) == 1:
         return [[1]]
+
+    if len(matrix) == 2:
+        return [[matrix[1][1], matrix[1][0]], [matrix[0][1], matrix[0][0]]]
 
     return [[determinant(minor_m(matrix, i, j))
              for j in range(len(matrix[i]))] for i in range(len(matrix))]
