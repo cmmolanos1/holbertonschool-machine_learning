@@ -72,4 +72,4 @@ class MultiNormal():
 
         pdf = pdf1 * pdf2
 
-        return pdf.flatten()[0]
+        return pdf.reshape(-1)[0]
