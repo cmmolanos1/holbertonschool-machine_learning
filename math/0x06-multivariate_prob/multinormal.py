@@ -59,7 +59,7 @@ class MultiNormal():
             raise TypeError("x must by a numpy.ndarray")
 
         d, _ = self.cov.shape
-        if x.shape != (d, 1):
+        if len(x.shape) != 2 or x.shape[1] != 1 or x.shape[0] != d:
             raise ValueError("x must have the shape ({}, 1)".format(d))
 
         x_minusu = x - self.mean
@@ -72,4 +72,4 @@ class MultiNormal():
 
         pdf = pdf1 * pdf2
 
-        return pdf.reshape(-1)[0]
+        return pdf.flatten()[0]
