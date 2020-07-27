@@ -67,7 +67,8 @@ class MultiNormal():
         cov_inv = np.linalg.inv(self.cov)
 
         pdf1 = 1 / np.sqrt(((2 * np.pi) ** d) * cov_det)
-        pdf2 = np.exp(-0.5 * np.matmul(np.matmul(x_minusu.T, cov_inv), x_minusu))
+        pdf2 = np.exp(-0.5 * np.matmul(np.matmul(x_minusu.T, cov_inv),
+                                       x_minusu))
 
         pdf = pdf1 * pdf2
 
