@@ -23,6 +23,5 @@ def correlation(C):
     variance = np.sqrt(np.diag(C))
     outer_v = np.outer(variance, variance)
     correlation = C / outer_v
-    correlation[C == 0] = 0
 
     return correlation
