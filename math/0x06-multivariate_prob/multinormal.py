@@ -58,7 +58,7 @@ class MultiNormal():
         if type(x) is not np.ndarray:
             raise TypeError("x must by a numpy.ndarray")
 
-        d, _ = x.shape
+        d, _ = self.cov.shape
         if x.shape != (d, 1):
             raise ValueError("x must have the shape ({}, 1)".format(d))
 
