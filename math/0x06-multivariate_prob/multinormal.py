@@ -47,8 +47,8 @@ class MultiNormal():
         x_minus_u = x - self.mean
 
         pdf1 = 1 / np.sqrt(((2 * np.pi) ** d) * cov_det)
-
-        pdf2 = np.exp(np.matmul(np.matmul(-x_minus_u.T / 2, cov_inv), x_minus_u))
+        pdf2 = np.exp(np.matmul(np.matmul(-x_minus_u.T / 2, cov_inv),
+                                x_minus_u))
 
         pdf = pdf1 * pdf2
 
