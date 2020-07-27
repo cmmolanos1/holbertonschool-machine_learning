@@ -6,26 +6,6 @@ Multinormal
 import numpy as np
 
 
-def mean_cov(X):
-    """Calculates the mean and covariance of a data set.
-
-    Args:
-        X (np.ndarray): dataset of shape (n, d)
-
-    Returns:
-        mean and covariance matrix of dataset.
-    """
-    d, n = X.shape
-    mean = np.mean(X, axis=1).reshape((d, 1))
-
-    ones = np.ones((n, n))
-    std_scores = X - np.matmul(X, ones) * (1 / n)
-
-    cov_matrix = np.matmul(std_scores, std_scores.T) / (n - 1)
-
-    return mean, cov_matrix
-
-
 class MultiNormal():
     """
         Class multinormal
@@ -35,15 +15,17 @@ class MultiNormal():
         """
         Class constructor
         """
-        if type(data) is not np.ndarray or len(data.shape) != 2:
+        if (not type(data) == np.ndarray) or (len(data.shape) != 2):
             raise TypeError("data must be a 2D numpy.ndarray")
-
-        d, n = data.shape
-
+        n = data.shape[1]
         if n < 2:
             raise ValueError("data must contain multiple data points")
 
-        self.mean, self.cov = mean_cov(data)
+        d = data.shape[0]
+        self.mean = (np.mean(data, axis=1)).reshape(d, 1)
+
+        X = data - self.mean
+        self.cov = ((np.dot(X, X.T)) / (n - 1))
 
     # def pdf(self, x):
     #     """Calculates the Probability distribution function at a data point.
