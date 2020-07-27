@@ -54,4 +54,4 @@ class MultiNormal():
         f2 = np.exp(f24)
         pdf = f1 * f2
 
-        return pdf.reshape(-1)[0]
+        return pdf.flatten()[0]
