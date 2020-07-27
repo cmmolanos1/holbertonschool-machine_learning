@@ -15,12 +15,6 @@ def mean_cov(X):
     Returns:
         mean and covariance matrix of dataset.
     """
-    if type(X) is not np.ndarray or len(X.shape) != 2:
-        raise TypeError("X must be a 2D numpy.ndarray")
-
-    if X.shape[0] < 2:
-        raise ValueError("X must contain multiple data points")
-
     d, n = X.shape
     mean = np.mean(X, axis=1).reshape((d, 1))
 
@@ -41,7 +35,7 @@ class MultiNormal():
         """
         Class constructor
         """
-        if type(data) is not np.ndarray:
+        if type(data) is not np.ndarray or len(data.shape) != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
 
         d, n = data.shape
