@@ -42,16 +42,14 @@ class MultiNormal():
         if len(x.shape) != 2 or x.shape[1] != 1 or x.shape[0] != d:
             raise ValueError("x must have the shape ({}, 1)".format(d))
 
-        # pdf formula -- multivar
+        cov_det = np.linalg.det(self.cov)
+        cov_inv = np.linalg.inv(self.cov)
+        x_minus_u = x - self.mean
 
-        det = np.linalg.det(self.cov)
-        inv = np.linalg.inv(self.cov)
-        f1 = 1 / np.sqrt(((2 * np.pi) ** d) * det)
-        f21 = -(x - self.mean).T
-        f22 = np.matmul(f21, inv)
-        f23 = (x - self.mean) / 2
-        f24 = np.matmul(f22, f23)
-        f2 = np.exp(f24)
-        pdf = f1 * f2
+        pdf1 = 1 / np.sqrt(((2 * np.pi) ** d) * cov_det)
+
+        pdf2 = np.exp(np.matmul(np.matmul(-x_minus_u.T / 2, cov_inv), x_minus_u))
+
+        pdf = pdf1 * pdf2
 
         return pdf.flatten()[0]
