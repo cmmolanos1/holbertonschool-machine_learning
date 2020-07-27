@@ -15,21 +15,17 @@ class MultiNormal():
         """
         Class constructor
         """
-        if type(data) is not np.ndarray:
+        if (not type(data) == np.ndarray) or (len(data.shape) != 2):
             raise TypeError("data must be a 2D numpy.ndarray")
-
-        d, n = data.shape
-
+        n = data.shape[1]
         if n < 2:
             raise ValueError("data must contain multiple data points")
 
-        d, n = data.shape
-        self.mean = np.mean(data, axis=1).reshape((d, 1))
+        d = data.shape[0]
+        self.mean = (np.mean(data, axis=1)).reshape(d, 1)
 
-        ones = np.ones((n, n))
-        std_scores = data - np.matmul(data, ones) * (1 / n)
-
-        self.cov = np.matmul(std_scores, std_scores.T) / (n - 1)
+        X = data - self.mean
+        self.cov = ((np.dot(X, X.T)) / (n - 1))
 
     def pdf(self, x):
         """Calculates the Probability distribution function at a data point.
