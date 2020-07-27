@@ -45,31 +45,30 @@ class MultiNormal():
 
         self.mean, self.cov = mean_cov(data)
 
-    # def pdf(self, x):
-    #     """Calculates the Probability distribution function at a data point.
-    #
-    #     Args:
-    #         x (np.ndarray): matrix of shape (d, 1) containing the data point
-    #                         whose PDF should be calculated.
-    #
-    #     Returns:
-    #
-    #     """
-    #     if type(x) is not np.ndarray:
-    #         raise TypeError("x must by a numpy.ndarray")
-    #
-    #     d, _ = x.shape
-    #     if x.shape != (d, 1):
-    #         raise ValueError("x must have the shape ({}, 1)".format(d))
-    #
-    #     x_minusu = x - self.mean
-    #     cov_det = np.linalg.det(self.cov)
-    #     cov_inv = np.linalg.inv(self.cov)
-    #
-    #     pdf1 = 1 / np.sqrt(((2 * np.pi) ** d) * cov_det)
-    #     pdf2 = np.exp(-0.5 * np.matmul(np.matmul(x_minusu.T, cov_inv)),
-    #                   x_minusu)
-    #
-    #     pdf = pdf1 * pdf2
-    #
-    #     return pdf
+    def pdf(self, x):
+        """Calculates the Probability distribution function at a data point.
+
+        Args:
+            x (np.ndarray): matrix of shape (d, 1) containing the data point
+                            whose PDF should be calculated.
+
+        Returns:
+
+        """
+        if type(x) is not np.ndarray:
+            raise TypeError("x must by a numpy.ndarray")
+
+        d, _ = x.shape
+        if x.shape != (d, 1):
+            raise ValueError("x must have the shape ({}, 1)".format(d))
+
+        x_minusu = x - self.mean
+        cov_det = np.linalg.det(self.cov)
+        cov_inv = np.linalg.inv(self.cov)
+
+        pdf1 = 1 / np.sqrt(((2 * np.pi) ** d) * cov_det)
+        pdf2 = np.exp(-0.5 * np.matmul(np.matmul(x_minusu.T, cov_inv), x_minusu))
+
+        pdf = pdf1 * pdf2
+
+        return pdf.flatten()[0]
