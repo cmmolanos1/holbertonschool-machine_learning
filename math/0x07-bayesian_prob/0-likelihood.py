@@ -22,7 +22,7 @@ def likelihood(x, n, P):
     """
     if type(n) is not int or n < 1:
         raise TypeError("n must be a positive integer")
-    if type(x) is not int or x <= 0:
+    if type(x) is not int or x < 0:
         raise TypeError("x must be an integer that is greater than or equal"
                         "to 0")
     if x > n:
