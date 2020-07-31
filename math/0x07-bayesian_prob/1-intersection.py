@@ -33,7 +33,7 @@ def intersection(x, n, P, Pr):
     if not isinstance(Pr, np.ndarray) or P.shape != Pr.shape:
         raise TypeError(
             "Pr must be a numpy.ndarray with the same shape as P")
-    if np.all((P > 1) | (P < 0)):
+    if np.any((P > 1) | (P < 0)):
         raise ValueError("All values in P must be in the range [0, 1]")
     if np.any(Pr > 1) or np.any(Pr < 0):
         raise ValueError("All values in Pr must be in the range [0, 1]")
