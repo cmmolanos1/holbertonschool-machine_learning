@@ -47,6 +47,8 @@ def kmeans(X, k, iterations=1000):
             else:
                 C[j] = (X[clss == j].mean(axis=0))
 
+        clss = distances.argmin(axis=0)
+
         if (C_copy == C).all():
             break
 
