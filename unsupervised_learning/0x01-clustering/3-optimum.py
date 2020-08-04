@@ -27,38 +27,35 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         - d_vars is a list containing the difference in variance from the
           smallest cluster size for each cluster size.
     """
-    try:
-        if type(X) is not np.ndarray or len(X.shape) != 2:
-            return None, None
-        if type(kmin) is not int or kmin < 1:
-            return None, None
-        if kmax and (type(kmax) is not int or kmax < 1):
-            return None, None
-        # if kmin >= kmax:
-        #   return None, None
-        if type(iterations) is not int or iterations < 1:
-            return None, None
 
-        n, d = X.shape
-        results = []
-        d_vars = []
-
-        if kmax:
-            maxi = kmax
-        else:
-            maxi = n
-
-        for k in range(kmin, maxi):
-            C, clss = kmeans(X, k, iterations)
-            results.append((C, clss))
-            var = variance(X, C)
-            d_vars.append(var)
-
-        d_vars_0 = d_vars[0]
-        for i in range(len(d_vars)):
-            d_vars[i] = d_vars_0 - d_vars[i]
-
-        return results, d_vars
-
-    except Exception:
+    if type(X) is not np.ndarray or len(X.shape) != 2:
         return None, None
+    if type(kmin) is not int or kmin < 1:
+        return None, None
+    if kmax is not None and (type(kmax) is not int or kmax < 1):
+        return None, None
+    # if kmin >= kmax:
+    #   return None, None
+    if type(iterations) is not int or iterations < 1:
+        return None, None
+
+    n, d = X.shape
+    results = []
+    d_vars = []
+
+    if kmax is not None:
+        maxi = kmax
+    else:
+        maxi = n
+
+    for k in range(kmin, maxi):
+        C, clss = kmeans(X, k, iterations)
+        results.append((C, clss))
+        var = variance(X, C)
+        d_vars.append(var)
+
+    d_vars_0 = d_vars[0]
+    for i in range(len(d_vars)):
+        d_vars[i] = d_vars_0 - d_vars[i]
+
+    return results, d_vars
