@@ -35,7 +35,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     if kmax is not None and (type(kmax) is not int or kmax < 1):
         return None, None
     if kmax is not None and kmin >= kmax:
-      return None, None
+        return None, None
     if type(iterations) is not int or iterations < 1:
         return None, None
 

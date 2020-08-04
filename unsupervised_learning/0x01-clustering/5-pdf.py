@@ -41,9 +41,10 @@ def pdf(X, m, S):
 
     pdf1 = 1 / np.sqrt((2 * np.pi) ** d * S_det)
     pdf2_1 = np.matmul((-x_minus_u / 2), S_inv)
-    pdf2 = np.exp(np.matmul(pdf2_1, x_minus_u.T))
+    pdf2_2 = np.matmul(pdf2_1, x_minus_u.T).diagonal()
+    pdf2 = np.exp(pdf2_2)
 
     pdf = pdf1 * pdf2
-    P = np.where(pdf < 1e-300, 1e-300, pdf).diagonal()
+    P = np.where(pdf < 1e-300, 1e-300, pdf)
 
     return P
