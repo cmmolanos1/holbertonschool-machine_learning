@@ -33,4 +33,3 @@ def regular(P):
         s = np.linalg.solve(A, v)
 
     return s
-cp
