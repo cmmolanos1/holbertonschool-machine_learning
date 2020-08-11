@@ -6,9 +6,8 @@ Markov chain
 import numpy as np
 
 
-def regular(P):
-    """ determines the probability of a markov chain being in a particular
-        state after a specified number of iterations.
+def absorbing(P):
+    """ determines if a markov chain is absorbing.
 
     Args:
         P (np-ndarray): of shape (n, n) representing the transition matrix.
@@ -23,14 +22,14 @@ def regular(P):
             P.shape[0] != P.shape[1]:
         return None
 
-    if np.any(P <= 0):
-        return None
-    else:
-        A = P.T - np.eye(P.shape[0])
-        A[-1] = np.ones((P.shape[0]))
-        v = np.zeros(P.shape[0])
-        v[-1] = 1
-        s = np.linalg.solve(A, v)
+    if np.all(np.diag(P) == 1):
+        return True
+    if not np.any(np.diagonal(P) == 1):
+        return False
 
-    return s
-cp
+    for i in range(len(P)):
+        for j in range(len(P[i])):
+            if (i == j) and (i + 1 < len(P)):
+                if P[i + 1][j] == 0 and P[i][j + 1] == 0:
+                    return False
+    return True
