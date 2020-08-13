@@ -30,32 +30,27 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
 
     if type(X) is not np.ndarray or len(X.shape) != 2:
         return None, None
-    if type(kmin) is not int or kmin < 1:
+    if type(kmin) is not int or kmin <= 0 or kmin >= X.shape[0]:
         return None, None
-    if kmax is not None and (type(kmax) is not int or kmax < 1):
+    if type(kmax) is not int or kmax <= 0 or kmax >= X.shape[0]:
         return None, None
-    if kmax is not None and kmin >= kmax:
+    if kmin >= kmax:
         return None, None
-    if type(iterations) is not int or iterations < 1:
+    if type(iterations) != int or iterations <= 0:
         return None, None
 
-    n, d = X.shape
-    results = []
-    d_vars = []
+    try:
+        results = []
+        d_vars = []
+        C_kmin, _ = kmeans(X, kmin)
+        kmin_var = variance(X, C_kmin)
+        for k in range(kmin, kmax + 1):
+            C, clss = kmeans(X, k)
+            results.append((C, clss))
+            d_vars.append(kmin_var - variance(X, C))
 
-    if kmax is not None:
-        maxi = kmax
-    else:
-        maxi = n
+        return (results, d_vars)
 
-    for k in range(kmin, maxi):
-        C, clss = kmeans(X, k, iterations)
-        results.append((C, clss))
-        var = variance(X, C)
-        d_vars.append(var)
-
-    d_vars_0 = d_vars[0]
-    for i in range(len(d_vars)):
-        d_vars[i] = d_vars_0 - d_vars[i]
-
-    return results, d_vars
+    except Exception:
+        return None, None
+    
