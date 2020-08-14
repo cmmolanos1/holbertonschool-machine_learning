@@ -26,13 +26,15 @@ def regular(P):
 
         if np.any(P <= 0):
             return None
-        else:
-            A = P.T - np.eye(P.shape[0])
-            A[-1] = np.ones((P.shape[0]))
-            v = np.zeros(P.shape[0])
-            v[-1] = 1
-            s = np.linalg.solve(A, v)
 
-            return s
+        n = P.shape[0]
+
+        A = P.T - np.eye(P.shape[0])
+        A[-1] = np.ones((P.shape[0]))
+        v = np.zeros(P.shape[0])
+        v[-1] = 1
+        s = np.linalg.solve(A, v).reshape((1, n))
+
+        return s
     except Exception:
         return None
