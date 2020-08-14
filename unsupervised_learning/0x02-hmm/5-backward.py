@@ -49,6 +49,6 @@ def backward(Observation, Emission, Transition, Initial):
 
         P = np.sum(B[:, 0] * Initial.T * Emission[:, Observation[0]])
 
-        return (P, B)
+        return P, B
     except Exception:
         return None, None

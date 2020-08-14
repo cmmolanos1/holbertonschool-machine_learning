@@ -33,6 +33,6 @@ def regular(P):
             v[-1] = 1
             s = np.linalg.solve(A, v)
 
-        return s
+            return s
     except Exception:
         return None
