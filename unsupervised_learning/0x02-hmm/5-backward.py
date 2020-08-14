@@ -50,10 +50,11 @@ def backward(Observation, Emission, Transition, Initial):
         # Due to python indexing the actual loop will be T-2 to 0.
         for t in reversed(range(T - 1)):
             for j in range(N):
-                B[j, t] = np.dot((B[:, t + 1] *
-                                  Emission[:, Observation[t + 1]]),
-                                 Transition[j, :])
-
+                # B[j, t] = np.dot((B[:, t + 1] *
+                #                   Emission[:, Observation[t + 1]]),
+                #                  Transition[j, :])
+                B[j, t] = np.sum(B[:, t + 1] * Emission[:, Observation[t + 1]]
+                                 * Transition[j, :])
         P = np.sum(Initial.T * Emission[:, Observation[0]] * B[:, 0])
 
         return P, B
