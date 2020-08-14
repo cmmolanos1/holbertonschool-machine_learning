@@ -19,17 +19,20 @@ def regular(P):
          a numpy.ndarray of shape (1, n) containing the steady state
          probabilities, or None on failure.
     """
-    if type(P) is not np.ndarray or len(P.shape) != 2 or \
-            P.shape[0] != P.shape[1]:
-        return None
+    try:
+        if type(P) is not np.ndarray or len(P.shape) != 2 or \
+                P.shape[0] != P.shape[1]:
+            return None
 
-    if np.any(P <= 0):
-        return None
-    else:
-        A = P.T - np.eye(P.shape[0])
-        A[-1] = np.ones((P.shape[0]))
-        v = np.zeros(P.shape[0])
-        v[-1] = 1
-        s = np.linalg.solve(A, v)
+        if np.any(P <= 0):
+            return None
+        else:
+            A = P.T - np.eye(P.shape[0])
+            A[-1] = np.ones((P.shape[0]))
+            v = np.zeros(P.shape[0])
+            v[-1] = 1
+            s = np.linalg.solve(A, v)
 
-    return s
+        return s
+    except Exception:
+        return None
