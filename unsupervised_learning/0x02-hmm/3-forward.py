@@ -47,8 +47,8 @@ def forward(Observation, Emission, Transition, Initial):
             for s in range(N):
                 # F[:, t] = [np.dot(F[:, t - 1], Transition[:, s]) *
                 #            Emission[s, Observation[t]] for s in range(N)]
-                F[s, t] = np.sum(F[:, t - 1] * Transition[:, s] * \
-                          Emission[s, Observation[t]])
+                F[s, t] = np.sum(F[:, t - 1] * Transition[:, s] *
+                                 Emission[s, Observation[t]])
         P = F[:, -1].sum()
 
         return P, F
