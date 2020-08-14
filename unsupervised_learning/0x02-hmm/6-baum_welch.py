@@ -150,7 +150,8 @@ def baum_welch(Observations, Transition, Emission, Initial,
                 Emission[:, Observations[t + 1]].T, beta[t + 1, :])
             for i in range(N):
                 numerator = alpha[t, i] * Transition[i, :] * \
-                            Emission[:, Observations[t + 1]].T * beta[t + 1, :].T
+                            Emission[:, Observations[t + 1]].T * \
+                            beta[t + 1, :].T
                 xi[i, :, t] = numerator / denominator
 
         gamma = np.sum(xi, axis=1)
