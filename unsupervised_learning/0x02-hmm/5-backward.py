@@ -47,7 +47,7 @@ def backward(Observation, Emission, Transition, Initial):
         B[:, T - 1] = np.ones((N))
 
         # Loop in backward way from T-1 to
-        # Due to python indexing the actual loop will be T-2 to 0
+        # Due to python indexing the actual loop will be T-2 to 0.
         for t in reversed(range(T - 1)):
             for j in range(N):
                 B[j, t] = np.dot((B[:, t + 1] *
