@@ -37,27 +37,18 @@ def backward(Observation, Emission, Transition, Initial):
 
     """
     try:
-
         T = Observation.shape[0]
         N, M = Emission.shape
 
         B = np.zeros((N, T))
+        B[:, T - 1] += 1
 
-        # setting beta(T) = 1
-        B[:, T - 1] = np.ones((N))
-
-        # Loop in backward way from T-1 to
-        # Due to python indexing the actual loop will be T-2 to 0.
         for t in range(T - 2, -1, -1):
-            for j in range(N):
-                # B[j, t] = np.dot((B[:, t + 1] *
-                #                   Emission[:, Observation[t + 1]]),
-                #                  Transition[j, :])
-                B[j, t] = np.sum(B[:, t + 1] * Emission[:, Observation[t + 1]]
-                                 * Transition[j, :])
-        P = np.sum(Initial[:, 0] * Emission[:, Observation[0]] * B[:, 0])
+            B[:, t] = (B[:, t + 1] * (Transition[:, :])
+                       ).dot(Emission[:, Observation[t + 1]])
 
-        return P, B
+        P = np.sum(B[:, 0] * Initial.T * Emission[:, Observation[0]])
 
+        return (P, B)
     except Exception:
         return None, None
