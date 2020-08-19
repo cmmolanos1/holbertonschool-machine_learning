@@ -74,3 +74,40 @@ class BayesianOptimization():
         X_next = self.X_s[np.argmax(ei)]
 
         return (X_next, ei)
+
+    def optimize(self, iterations=100):
+        """optimizes the black-box function.
+
+        Args:
+            iterations(int): the maximum number of iterations to perform.
+
+        Returns:
+            Returns: X_opt, Y_opt
+            - X_opt is a numpy.ndarray of shape (1,) representing the optimal
+              point.
+            - Y_opt is a numpy.ndarray of shape (1,) representing the optimal
+              function value
+        """
+        for i in range(iterations):
+            # Obtain next sampling point from the acquisition function
+            # (expected_improvement)
+            X_next, _ = self.acquisition()
+            # Check if X_next was sampled.
+            if X_next in self.gp.X:
+                break
+
+            # Obtain next noisy sample from the objective function
+            Y_next = self.f(X_next)
+
+            # Add sample to previous samples
+            self.gp.update(X_next, Y_next)
+
+        if self.minimize is True:
+            X_opt = np.amin(self.gp.Y)
+
+        else:
+            X_opt = np.amax(self.gp.Y)
+
+        Y_opt = self.f(X_opt)
+
+        return X_opt, Y_opt
