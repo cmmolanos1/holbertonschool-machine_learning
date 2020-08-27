@@ -40,9 +40,7 @@ class BayesianOptimization():
         """
         self.f = f
         self.gp = GP(X_init, Y_init, l, sigma_f)
-        X_s = np.linspace(bounds[0],
-                               bounds[1],
-                               ac_samples)
+        X_s = np.linspace(bounds[0], bounds[1], num=ac_samples)
         self.X_s = X_s.reshape(-1, 1)
         self.xsi = xsi
         self.minimize = minimize
