@@ -54,7 +54,6 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     decoded = K.layers.Dense(input_dims, activation='sigmoid')(decoded)
     decoder = K.models.Model(input_z, decoded)
     decoder.summary()
-
     x = K.Input(shape=(input_dims,))
     z_encoder = encoder(x)
     x_decoder_mean = decoder(z_encoder)
