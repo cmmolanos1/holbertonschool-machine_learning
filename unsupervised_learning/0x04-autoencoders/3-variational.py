@@ -41,7 +41,6 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         latent_dims,))([z_mean, z_stand_des])
 
     encoder = keras.models.Model(input_x, z)
-    encoder.summary()
 
     input_z = keras.Input(shape=(latent_dims,))
     for i in range(len(hidden_layers) - 1, -1, -1):
