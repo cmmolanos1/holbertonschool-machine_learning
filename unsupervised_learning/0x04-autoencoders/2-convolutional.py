@@ -33,17 +33,17 @@ def autoencoder(input_dims, filters, latent_dims):
     input_encoder = keras.Input(shape=input_dims)
 
     encoded = keras.layers.Conv2D(filters=filters[0],
-                              kernel_size=3,
-                              padding='same',
-                              activation='relu')(input_encoder)
+                                  kernel_size=3,
+                                  padding='same',
+                                  activation='relu')(input_encoder)
     encoded_pool = keras.layers.MaxPool2D(
         pool_size=(2, 2), padding='same')(encoded)
 
     for i in range(1, len(filters)):
         encoded = keras.layers.Conv2D(filters=filters[i],
-                                  kernel_size=3,
-                                  padding='same',
-                                  activation='relu')(encoded_pool)
+                                      kernel_size=3,
+                                      padding='same',
+                                      activation='relu')(encoded_pool)
         encoded_pool = keras.layers.MaxPool2D(
             pool_size=(2, 2), padding='same')(encoded)
 
@@ -54,24 +54,24 @@ def autoencoder(input_dims, filters, latent_dims):
 
     input_decoder = keras.Input(shape=(latent_dims))
     decoded = keras.layers.Conv2D(filters=filters[i], kernel_size=3,
-                              padding='same',
-                              activation='relu')(input_decoder)
+                                  padding='same',
+                                  activation='relu')(input_decoder)
 
     decoded_pool = keras.layers.UpSampling2D(size=[2, 2])(decoded)
     for i in range(len(filters) - 2, -1, -1):
         if i == 0:
             decoded = keras.layers.Conv2D(filters=filters[i], kernel_size=3,
-                                      padding='valid',
-                                      activation='relu')(decoded_pool)
+                                          padding='valid',
+                                          activation='relu')(decoded_pool)
             decoded_pool = keras.layers.UpSampling2D(size=[2, 2])(decoded)
         else:
             decoded = keras.layers.Conv2D(filters=filters[i], kernel_size=3,
-                                      padding='same',
-                                      activation='relu')(decoded_pool)
+                                          padding='same',
+                                          activation='relu')(decoded_pool)
             decoded_pool = keras.layers.UpSampling2D(size=[2, 2])(decoded)
     decoded = keras.layers.Conv2D(filters=1, kernel_size=3,
-                              padding='same',
-                              activation='sigmoid')(decoded_pool)
+                                  padding='same',
+                                  activation='sigmoid')(decoded_pool)
 
     decoder = keras.models.Model(input_decoder, decoded)
     decoder.summary()
