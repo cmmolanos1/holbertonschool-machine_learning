@@ -46,13 +46,14 @@ class RNNDecoder(tf.keras.layers.Layer):
             - s is a tensor of shape (batch, units) containing the new decoder
               hidden state.
         """
-        embedding = self.embedding(x)
-        attention = SelfAttention(s_prev.shape[1])
+        batch, units = s_prev.shape
+        attention = SelfAttention(units)
         context, weights = attention(s_prev, hidden_states)
-        exp_context = tf.expand_dims(context, axis=1)
-        inputs = tf.concat([exp_context, embedding], -1)
-        decode_outs, state = self.gru(inputs)
-        y = tf.reshape((decode_outs), (decode_outs.shape[0], decode_outs.shape[2]))
-        y = self.F(y)
+        exp_context = tf.expand_dims(context, 1)
+        embeddings = self.embedding(x)
+        concat_input = tf.concat([exp_context, embeddings], axis=-1)
+        outputs, hidden = self.gru(concat_input)
+        outputs = tf.reshape(outputs, (outputs.shape[0], outputs.shape[2]))
+        y = self.F(outputs)
 
-        return y, state
+        return y, hidden
