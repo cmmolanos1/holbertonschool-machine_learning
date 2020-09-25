@@ -29,6 +29,14 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.Wv = tf.keras.layers.Dense(self.dm)
         self.linear = tf.keras.layers.Dense(self.dm)
 
+    def split_heads(self, x, batch_size):
+        """Split the last dimension into (num_heads, depth).
+        Transpose the result such that the shape is
+        (batch_size, num_heads, seq_len, depth)
+        """
+        x = tf.reshape(x, (batch_size, -1, self.h, self.depth))
+        return tf.transpose(x, perm=[0, 2, 1, 3])
+
     def call(self, Q, K, V, mask):
         """
 
@@ -49,24 +57,20 @@ class MultiHeadAttention(tf.keras.layers.Layer):
             - weights a tensor with its last three dimensions as
               (..., h, seq_len_q, seq_len_v) containing the attention weights.
         """
-        batch = V.shape[0]
+        batch_size = tf.shape(Q)[0]
 
-        V_linear = self.Wv(V)
-        K_linear = self.Wk(K)
-        Q_linear = self.Wq(Q)
+        Q = self.Wq(Q)
+        K = self.Wk(K)
+        V = self.Wv(V)
 
-        V = tf.reshape(V_linear, [batch, -1, self.h, self.depth])
-        K = tf.reshape(K_linear, [batch, -1, self.h, self.depth])
-        Q = tf.reshape(Q_linear, [batch, -1, self.h, self.depth])
+        q = self.split_heads(Q, batch_size)
+        k = self.split_heads(K, batch_size)
+        v = self.split_heads(V, batch_size)
 
-        V = tf.transpose(V, perm=[0, 2, 1, 3])
-        K = tf.transpose(K, perm=[0, 2, 1, 3])
-        Q = tf.transpose(Q, perm=[0, 2, 1, 3])
+        scaled_attention, weights = sdp_attention(q, k, v, mask)
+        scaled_attention = tf.transpose(scaled_attention, perm=[0, 2, 1, 3])
+        concat_attention = tf.reshape(scaled_attention,
+                                      (batch_size, -1, self.dm))
+        output = self.linear(concat_attention)
 
-        output, weights = sdp_attention(Q, K, V, mask)
-
-        output = tf.transpose(output, perm=[0, 2, 1, 3])
-        output = tf.reshape(output, (batch, -1, self.dm))
-        outputs = self.linear(output)
-
-        return outputs, weights
+        return output, weights
