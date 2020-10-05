@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 Datasets
 """
@@ -20,7 +19,7 @@ class Dataset:
                                        with_info=True,
                                        as_supervised=True)
         self.data_train, self.data_valid = examples['train'], \
-                                           examples['validation']
+            examples['validation']
 
         self.tokenizer_pt, self.tokenizer_en = \
             self.tokenize_dataset(self.data_train)
@@ -40,11 +39,9 @@ class Dataset:
             -tokenizer_en is the English tokenizer
         """
         tokenizer_pt = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-            (pt.numpy() for pt, en in data),
-            target_vocab_size=2 ** 15)
+            (pt.numpy() for pt, en in data), target_vocab_size=2 ** 15)
 
         tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-            (en.numpy() for pt, en in data),
-            target_vocab_size=2 ** 15)
+            (en.numpy() for pt, en in data), target_vocab_size=2 ** 15)
 
         return tokenizer_pt, tokenizer_en
