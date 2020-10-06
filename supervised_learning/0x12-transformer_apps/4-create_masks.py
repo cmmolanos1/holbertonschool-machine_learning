@@ -26,16 +26,17 @@ def create_masks(inputs, target):
     encoder_mask = tf.cast(tf.math.equal(inputs, 0), tf.float32)
     encoder_mask = encoder_mask[:, tf.newaxis, tf.newaxis, :]
 
-    seq_len_out = target.shape[1]
-    batch_size = target.shape[0]
-
-    look_ahead_mask = \
-        1 - tf.linalg.band_part(tf.ones((seq_len_out, seq_len_out)), -1, 0)
-    look_ahead_mask = \
-        tf.repeat(look_ahead_mask[tf.newaxis, tf.newaxis, :, :],
-                  batch_size, axis=0)
-
     decoder_mask = tf.cast(tf.math.equal(inputs, 0), tf.float32)
     decoder_mask = decoder_mask[:, tf.newaxis, tf.newaxis, :]
 
-    return encoder_mask, look_ahead_mask, decoder_mask
+    size = target.shape[1]
+
+    look_ahead_mask = \
+        1 - tf.linalg.band_part(tf.ones((size, size)), -1, 0)
+
+    dec_target_mask = tf.cast(tf.math.equal(target, 0), tf.float32)
+    dec_target_mask = dec_target_mask[:, tf.newaxis, tf.newaxis, :]
+
+    combined_mask = tf.maximum(dec_target_mask, look_ahead_mask)
+
+    return encoder_mask, combined_mask, decoder_mask
