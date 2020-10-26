@@ -31,3 +31,6 @@
 /supervised_learning/0x11-attention/*-main.py
 /reinforcement_learning/0x00-q_learning/*-main.py
 /supervised_learning/0x12-transformer_apps/*-main.py
+/pipeline/0x00-pandas/*-main.py
+/pipeline/0x00-pandas/coinbaseUSD_1-min_data_2014-12-01_to_2019-01-09.csv
+/pipeline/0x00-pandas/bitstampUSD_1-min_data_2012-01-01_to_2020-04-22.csv
