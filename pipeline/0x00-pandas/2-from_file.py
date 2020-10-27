@@ -16,4 +16,5 @@ def from_file(filename, delimiter):
     Returns:
         the loaded pd.DataFrame.
     """
+    pd.set_option('display.max_columns', None)
     return pd.read_csv(filename, sep=delimiter)
