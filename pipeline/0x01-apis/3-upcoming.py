@@ -3,8 +3,6 @@
 Retrieving user location
 """
 import requests
-import sys
-import time
 
 if __name__ == '__main__':
 
