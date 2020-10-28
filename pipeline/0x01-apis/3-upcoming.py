@@ -7,10 +7,13 @@ import requests
 if __name__ == '__main__':
 
     url = 'https://api.spacexdata.com/v4/launches/upcoming'
-    r = requests.get(url)
+    launches = requests.get(url).json()
 
-    launch = r.json()[0]
+    # Finding the next launch
+    dates = [launch['date_unix'] for launch in launches]
+    index = dates.index(min(dates))
 
+    launch = launches[index]
     launch_name = launch['name']
 
     date = launch['date_local']
