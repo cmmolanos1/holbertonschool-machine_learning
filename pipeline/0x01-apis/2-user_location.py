@@ -20,7 +20,7 @@ if __name__ == '__main__':
         print("Not found")
 
     elif r.status_code == 403:
-        limit_time = r.headers['X-Ratelimit-Reset']
-        now = time.time()
+        limit_time = int(r.headers['X-Ratelimit-Reset'])
+        now = int(time.time())
         remaining = int((limit_time - now) / 60)
         print("Reset in {} min".format(remaining))
