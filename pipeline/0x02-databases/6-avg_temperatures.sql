@@ -1,5 +1,4 @@
 -- AVG TEMPERATURES
--- ABG TEMP
 SELECT city, AVG(value) AS t_avg
 FROM temperatures
 GROUP BY city
