@@ -4,7 +4,7 @@ CREATE PROCEDURE AddBonus(IN user_id INT, project_name VARCHAR(255), score INT)
 BEGIN
     SET @count = (SELECT COUNT(*) FROM projects WHERE projects.name LIKE project_name);
     IF @count = 0 THEN
-        INSERT INTO projects
+        INSERT INTO projects(name)
         VALUES (project_name);
     END IF;
 
