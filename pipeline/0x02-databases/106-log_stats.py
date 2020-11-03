@@ -29,14 +29,11 @@ if __name__ == "__main__":
 
     pipeline = [
         {"$sortByCount": '$ip'},
-        {"$sort": {"ip": -1}}
+        {"$limit": 10},
+        {"$sort": {"ip": -1}},
+
     ]
     ips = collection.aggregate(pipeline)
 
-    num_elements = 0
     for ip in ips:
-        if num_elements == 10:
-            break
-
         print("\t{}: {}".format(ip['_id'], ip['count']))
-        num_elements += 1
