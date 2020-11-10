@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-rotate
+Based from https://pixelatedbrian.github.io/2018-04-29-fancy_pca/
 """
 
 import numpy as np
