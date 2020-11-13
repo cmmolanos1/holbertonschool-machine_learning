@@ -16,7 +16,7 @@ def question_answer(question, reference):
         reference (str): the reference document from which to find the answer.
 
     Returns:
-
+        The answer
     """
     tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-'
                                               'masking-finetuned-squad')
@@ -50,3 +50,31 @@ def question_answer(question, reference):
     answer = tokenizer.convert_tokens_to_string(answer_tokens)
 
     return answer if len(answer_tokens) > 1 else None
+
+
+def answer_loop(reference):
+    """answers questions from a reference text
+
+    Args:
+        reference (str): the reference document from which to find the answer.
+
+    Returns:
+        The answer
+    """
+
+    while True:
+        question = input("Q: ").lower().strip()
+
+        exit_words = ['exit', 'quit', 'goodbye', 'bye']
+
+        if question in exit_words:
+            print("A: Goodbye")
+            break
+
+        else:
+            answer = question_answer(question, reference)
+
+            if answer is None:
+                answer = "Sorry, I do not understand your question."
+
+            print("A: {}".format(answer))
