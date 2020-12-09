@@ -18,18 +18,17 @@ def question_answer(question, reference):
     Returns:
 
     """
-    tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-'
-                                              'masking-finetuned-squad')
-    model = hub.load("https://tfhub.dev/see--/bert-uncased-tf2-qa/1")
+    tok = 'bert-large-uncased-whole-word-masking-finetuned-squad'
+    tokenizer = BertTokenizer.from_pretrained(tok)
 
-    question = question
-    paragraph = reference
+    model_url = "https://tfhub.dev/see--/bert-uncased-tf2-qa/1"
+    model = hub.load(model_url)
 
     question_tokens = tokenizer.tokenize(question)
-    paragraph_tokens = tokenizer.tokenize(paragraph)
+    paragraph_tokens = tokenizer.tokenize(reference)
 
-    tokens = ['[CLS]'] + question_tokens + ['[SEP]'] + paragraph_tokens + \
-             ['[SEP]']
+    tokens = ['[CLS]'] + question_tokens + ['[SEP]'] + \
+             paragraph_tokens + ['[SEP]']
 
     input_word_ids = tokenizer.convert_tokens_to_ids(tokens)
     input_mask = [1] * len(input_word_ids)
